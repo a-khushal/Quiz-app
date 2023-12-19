@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const data = require("./loginData");
 
 const loginSchema = mongoose.Schema({
+    username: String,
     email: String,
     password: String,
 });
@@ -14,7 +15,7 @@ async function main(){
     await mongoose.connect("mongodb://127.0.0.1:27017/quizApp");
 }
 
-const loginDB = mongoose.model("loginData", loginSchema);
+const loginDB = mongoose.model("loginDB", loginSchema);
 module.exports = loginDB;
 
 async function initDB(){

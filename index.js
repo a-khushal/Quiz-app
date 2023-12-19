@@ -6,6 +6,7 @@ const loginDB = require("./init/loginIndex");
 
 app.use(express.urlencoded({extended: true}));
 app.set(express.static(path.join(__dirname, "/views")));
+app.set('view engine', 'ejs');
 
 main()
     .then(()=>console.log("connected"))
@@ -28,12 +29,14 @@ app.post("/", async(req, res)=>{
     try{
         let {email, password} = req.body;
         let check = await loginDB.findOne({email, password});
+        // let username = await loginDB.findOne({email}).username;
         if(check!=null){
-            res.send("after login");
+            let username = check.username;
+            // console.log(username);
+            res.render("show.ejs", {username});
             return;
         }
         res.send("User doen't exist");
-        
     }
     catch(err){
         console.error("Error:", err);
