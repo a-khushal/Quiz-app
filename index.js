@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
-const loginDB = require("./init/loginIndex");
+const {studentLoginDB, teacherLoginDB} = require("./init/loginIndex");
+
 
 app.use(express.urlencoded({extended: true}));
 app.set(express.static(path.join(__dirname, "/views")));
@@ -28,15 +29,23 @@ app.get("/login", (req, res)=>{
 app.post("/", async(req, res)=>{
     try{
         let {email, password} = req.body;
-        let check = await loginDB.findOne({email, password});
-        // let username = await loginDB.findOne({email}).username;
-        if(check!=null){
-            let username = check.username;
-            // console.log(username);
-            res.render("show.ejs", {username});
+        let checkStudent = await studentLoginDB.findOne({email, password});
+        let checkTeacher = await teacherLoginDB.findOne({email, password});
+        // let username = await studentLoginDB.findOne({email}).username;
+        if(checkStudent!=null){
+            let username = checkStudent.username;
+            console.log(username);
+            res.render("showStudent.ejs", {username});
             return;
         }
-        res.send("User doen't exist");
+        else if(checkTeacher!=null){
+            let username = checkTeacher.username;
+            console.log(username);
+            res.render("showTeacher.ejs", {username});
+            return;
+        }
+        res.send("Email or password is incorrect try again");
+        // res.send(checkTeacher);
     }
     catch(err){
         console.error("Error:", err);
