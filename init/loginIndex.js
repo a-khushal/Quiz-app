@@ -31,7 +31,6 @@ async function initDB(){
 
     await studentLoginDB.insertMany(data.studentData);
     await teacherLoginDB.insertMany(data.teacherData);
-
 }
 
 initDB();

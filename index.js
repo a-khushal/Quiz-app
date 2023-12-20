@@ -34,13 +34,13 @@ app.post("/", async(req, res)=>{
         // let username = await studentLoginDB.findOne({email}).username;
         if(checkStudent!=null){
             let username = checkStudent.username;
-            console.log(username);
+            // console.log(username);
             res.render("showStudent.ejs", {username});
             return;
         }
         else if(checkTeacher!=null){
             let username = checkTeacher.username;
-            console.log(username);
+            // console.log(username);
             res.render("showTeacher.ejs", {username});
             return;
         }
