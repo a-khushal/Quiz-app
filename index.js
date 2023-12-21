@@ -31,11 +31,11 @@ app.post("/", async(req, res)=>{
         let {email, password} = req.body;
         let checkStudent = await studentLoginDB.findOne({email, password});
         let checkTeacher = await teacherLoginDB.findOne({email, password});
-        // let username = await studentLoginDB.findOne({email}).username;
         if(checkStudent!=null){
+            let subjectArr = [];
             let username = checkStudent.username;
-            // console.log(username);
-            res.render("showStudent.ejs", {username});
+            subjectArr = checkStudent.subject;
+            res.render("showStudent.ejs", {username, subjectArr});
             return;
         }
         else if(checkTeacher!=null){
@@ -45,7 +45,6 @@ app.post("/", async(req, res)=>{
             return;
         }
         res.send("Email or password is incorrect try again");
-        // res.send(checkTeacher);
     }
     catch(err){
         console.error("Error:", err);

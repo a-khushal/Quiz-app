@@ -7,5 +7,11 @@
 </head>
 <body>
     <h1>Welcome <%=username%></h1>
+    <h3>Subjects: </h3>
+    <% for(subject of subjectArr){ %>
+        <div style="display: flex;">
+            <div style="margin-top: 25px; margin-left: 25px; cursor: pointer;"><%=subject.name%>:&nbsp;&nbsp;&nbsp;&nbsp;<%=subject.code%></div>
+        </div>
+    <% } %>
 </body>
 </html>

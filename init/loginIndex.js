@@ -5,6 +5,9 @@ const studentSchema = mongoose.Schema({
     username: String,
     email: String,
     password: String,
+    subject: [{
+        type: Object,
+    }]
 });
 
 const teacherSchema = mongoose.Schema({
