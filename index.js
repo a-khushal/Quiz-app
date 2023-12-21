@@ -95,23 +95,27 @@ app.get("/teacherLogin/:id", async(req, res)=>{
 
 app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
     let sub = "maths";
-    res.render("subjects_views/maths.ejs");
+    res.render("subjects_views/MAT231CT.ejs");
 });
-
 
 app.get("/studentLogin/:id/BT232AT", async(req, res)=>{
     let sub = "maths";
-    res.render("subjects_views/maths.ejs");
+    res.render("subjects_views/MAT231CT.ejs");
 });
 
 app.get("/studentLogin/:id/IS233AI", async(req, res)=>{
     let sub = "maths";
-    res.render("subjects_views/maths.ejs");
+    res.render("subjects_views/MAT231CT.ejs");
 });
 
 app.get("/studentLogin/:id/CS234AI", async(req, res)=>{
     let sub = "maths";
-    res.render("subjects_views/maths.ejs");
+    res.render("subjects_views/MAT231CT.ejs");
+});
+
+app.get("/studentLogin/:id/CV232AT", async(req, res)=>{
+    let sub = "maths";
+    res.render("subjects_views/MAT231CT.ejs");
 });
 
 app.listen(8080, () => {
