@@ -2,56 +2,56 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
-const {studentLoginDB, teacherLoginDB} = require("./init/loginIndex");
+const { studentLoginDB, teacherLoginDB } = require("./init/loginIndex");
 
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.set(express.static(path.join(__dirname, "/views")));
 app.set('view engine', 'ejs');
 
 main()
-    .then(()=>console.log("connected"))
-    .catch((err)=>console.log(err));
+    .then(() => console.log("connected"))
+    .catch((err) => console.log(err));
 
-async function main(){
+async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/quizApp");
 }
 
 
-app.get("/", (req, res)=>{
+app.get("/", (req, res) => {
     res.render("index.ejs");
 });
 
-app.get("/login", (req, res)=>{
+app.get("/login", (req, res) => {
     res.render("login.ejs");
 });
 
-app.post("/", async(req, res)=>{
-    try{
-        let {email, password} = req.body;
-        let checkStudent = await studentLoginDB.findOne({email, password});
-        let checkTeacher = await teacherLoginDB.findOne({email, password});
-        if(checkStudent!=null){
+app.post("/", async (req, res) => {
+    try {
+        let { email, password } = req.body;
+        let checkStudent = await studentLoginDB.findOne({ email, password });
+        let checkTeacher = await teacherLoginDB.findOne({ email, password });
+        if (checkStudent != null) {
             let subjectArr = [];
             let username = checkStudent.username;
             subjectArr = checkStudent.subject;
-            res.render("showStudent.ejs", {username, subjectArr});
+            res.render("showStudent.ejs", { username, subjectArr });
             return;
         }
-        else if(checkTeacher!=null){
+        else if (checkTeacher != null) {
             let username = checkTeacher.username;
             // console.log(username);
-            res.render("showTeacher.ejs", {username});
+            res.render("showTeacher.ejs", { username, subject });
             return;
         }
         res.send("Email or password is incorrect try again");
     }
-    catch(err){
+    catch (err) {
         console.error("Error:", err);
         res.status(500).send("Internal Server Error");
     }
 })
 
-app.listen(8080, ()=>{
+app.listen(8080, () => {
     console.log("listening to port 8080");
 });
