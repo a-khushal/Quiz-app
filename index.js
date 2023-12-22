@@ -86,11 +86,19 @@ app.get("/studentLogin/:id", async(req, res)=>{
 });
 
 app.get("/teacherLogin/:id", async(req, res)=>{
-    const {id} = req.params;
-    let getTeacher = await teacherLoginDB.findById(id);
-    subject = getTeacher.subject;
-    let username = getTeacher.username;
-    res.render("showTeacher.ejs", {username, subject, id})
+    try{
+        const {id} = req.params;
+        let subStudArr = [];
+        let getTeacher = await teacherLoginDB.findById(id);
+        const subject = getTeacher.subject;
+        const username = getTeacher.username;
+        subStudArr = await studentLoginDB.find({'subject.code': subject.code});
+        res.render("showTeacher.ejs", {username, subject, id, subStudArr})
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Internal Server Error");
+    }
+    
 });
 
 app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{

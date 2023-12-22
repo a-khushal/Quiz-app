@@ -224,8 +224,8 @@ const teacherData = [
         }
     },
     {
-        username: "teacher4",
-        email: "teacher4@gmail.com",
+        username: "teacher5",
+        email: "teacher5@gmail.com",
         password: "welcome@123",
         subject: {
             name: "Bio",
@@ -233,8 +233,8 @@ const teacherData = [
         }
     },
     {
-        username: "teacher4",
-        email: "teacher4@gmail.com",
+        username: "teacher6",
+        email: "teacher6@gmail.com",
         password: "welcome@123",
         subject: {
             name: "Material Science for Engineers",

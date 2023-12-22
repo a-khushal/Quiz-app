@@ -8,5 +8,9 @@
 <body>
     <h1>Welcome <%=username%></h1>
     <p><%=subject.code%>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=subject.name%> </p>
+    <% for (subStud of subStudArr) { %>
+        <div><%= subStud.email%> &nbsp;&nbsp;&nbsp;&nbsp; <%= subStud.username %> </div>
+    <% } %>
+
 </body>
 </html>
