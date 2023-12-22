@@ -4,13 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     <h1>Welcome <%=username%></h1>
     <p><%=subject.code%>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=subject.name%> </p>
-    <% for (subStud of subStudArr) { %>
-        <div><%= subStud.email%> &nbsp;&nbsp;&nbsp;&nbsp; <%= subStud.username %> </div>
-    <% } %>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (subStud of subStudArr) { %>
+                <tr>
+                    <td><%= subStud.email%></td>
+                    <td><%= subStud.username %></td>
+                </tr>
+                <!-- <div><%= subStud.email%> &nbsp;&nbsp;&nbsp;&nbsp; <%= subStud.username %> </div> -->
+            <% } %>
+        </tbody>
+    </table>
+    
 
 </body>
 </html>
