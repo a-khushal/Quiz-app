@@ -8,9 +8,11 @@
 <body>
     <h1>Welcome <%=username%></h1>
     <h3>Subjects: </h3>
-    <% for(subject of subjectArr){ %>
-        <div style="margin-top: 25px; margin-left: 25px; cursor: pointer;" onclick="window.location.href='/studentLogin/<%=id%>/<%=subject.code%>';"><%=subject.code%> &nbsp;&nbsp;&nbsp;&nbsp;<%=subject.name%></div>
-    <% } %>
+    <div style="display:inline-block;">
+        <% for(subject of subjectArr){ %>
+            <div style="margin-top: 25px; margin-left: 25px; cursor: pointer; border: 2px solid black; box-shadow: 2px 2px 3px black; font-size: 30px;" onclick="window.location.href='/studentLogin/<%=id%>/<%=subject.code%>';"><%=subject.code%> &nbsp;&nbsp;&nbsp;&nbsp;<%=subject.name%></div><br>
+        <% } %>
+    </div>
     <!-- <script>
         function redirectToLink(link) {
             window.location.href = link;
