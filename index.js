@@ -94,28 +94,33 @@ app.get("/teacherLogin/:id", async(req, res)=>{
 });
 
 app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
-    let sub = "maths";
+    let sub = "Maths";
     res.render("subjects_views/MAT231CT.ejs");
 });
 
 app.get("/studentLogin/:id/BT232AT", async(req, res)=>{
-    let sub = "maths";
-    res.render("subjects_views/MAT231CT.ejs");
+    let sub = "Bio";
+    res.render("subjects_views/BT232AT.ejs");
 });
 
 app.get("/studentLogin/:id/IS233AI", async(req, res)=>{
-    let sub = "maths";
-    res.render("subjects_views/MAT231CT.ejs");
+    let sub = "DSA";
+    res.render("subjects_views/IS233AI.ejs");
 });
 
 app.get("/studentLogin/:id/CS234AI", async(req, res)=>{
-    let sub = "maths";
-    res.render("subjects_views/MAT231CT.ejs");
+    let sub = "OS";
+    res.render("subjects_views/CS234AI.ejs");
 });
 
 app.get("/studentLogin/:id/CV232AT", async(req, res)=>{
-    let sub = "maths";
-    res.render("subjects_views/MAT231CT.ejs");
+    let sub = "Environment & Sustainability";
+    res.render("subjects_views/CV232AT.ejs");
+});
+
+app.get("/studentLogin/:id/ME232AT", async(req, res)=>{
+    let sub = "Material Science for Engineers";
+    res.render("subjects_views/ME232AT.ejs");
 });
 
 app.listen(8080, () => {
