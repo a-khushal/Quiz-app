@@ -99,12 +99,8 @@ app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
 });
 
 app.get("/studentLogin/:id/BT232AT", async(req, res)=>{
-    let sub = "Bio";
-<<<<<<< HEAD
+    let sub = "maths";
     res.render("subjects_views/MAT231CT.ejs");
-=======
-    res.render("subjects_views/BT232AT.ejs");
->>>>>>> 65cc098da30e0af6884635c3639871d1f623c45f
 });
 
 app.get("/studentLogin/:id/IS233AI", async(req, res)=>{
