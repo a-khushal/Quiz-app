@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #teacher-form{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="selectDiv">
+        <label for="select">Select Student/Teacher: </label>
+        <select name="select" id="selectOption">
+            <option value="">--select--</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+        </select>
+        <br><br>
+        <button onclick="displayStudorTeacherForm()">submit</button>
+    </div>
+
+    <div id="teacherForm" style="display: none;">
+        <h2>Add New Teacher</h2>
+        <form action="">
+            <label for="username">Username</label>
+            <input type="text" name="username"><br><br>
+            <label for="email">Email</label>
+            <input type="email" name="email"><br><br>
+            <label for="subjName">Subject Name</label>
+            <input type="text" name="subjName"><br><br>
+            <label for="subjCode">Subject Code</label>
+            <input type="text" name="subjCode"><br><br>
+            <button>submit</button>
+        </form><br><br>
+        <button onclick="backButton()">back</button>
+    </div>
+
+    <div id="studentForm" style="display: none;">
+        <h2>Add new Student</h2>
+        <br><br>
+        <button onclick="backButton()">back</button>
+    </div>
+
+
+    <script>
+        let selectOption = document.getElementById('selectOption');
+        let studentForm = document.getElementById("studentForm");
+        let teacherForm = document.getElementById("teacherForm");
+        let selectDiv = document.getElementById('selectDiv');
+        function displayStudorTeacherForm(){
+            if(selectOption.value === 'student'){
+                studentForm.style.display = 'block';
+                teacherForm.style.display = 'none';
+                selectDiv.style.display = 'none'
+            } else if(selectOption.value === 'teacher'){
+                teacherForm.style.display = 'block';
+                studentForm.style.display = 'none';
+                selectDiv.style.display = 'none'
+            } else{
+                teacherForm.style.display = 'none';
+                studentForm.style.display = 'none';
+                selectDiv.style.display = 'block'
+            }
+        }
+        function backButton(){
+            teacherForm.style.display = 'none';
+            studentForm.style.display = 'none';
+            selectDiv.style.display = 'block'
+        }
+    </script>
+</body>
+</html>

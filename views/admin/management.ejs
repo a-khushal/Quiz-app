@@ -29,7 +29,8 @@
 <body>
     <h1>hi admin</h1>
     <button onclick="showTable('teacherTable', 'teacherbtn')", id="teacherbtn">show all teachers</button>
-    <button onclick="showTable('studentTable', 'studentbtn')", id="studentbtn">show all students</button>
+    <button onclick="showTable('studentTable', 'studentbtn')", id="studentbtn">show all students</button><br><br>
+    <button onclick="openNewWindow()">add new student/teacher</button>
     <div id="teacherTable" class="table-content">
         <table>
             <thead>
@@ -97,6 +98,15 @@
                     clickedbtn.innerHTML = 'show all students';
                 }
             } 
+        }
+        function openNewWindow(){
+            const url = "management/new";
+            let width = 600;
+            let height = 400;
+            let left = (screen.width - width) / 2;
+            let top = (screen.height - height) / 2;
+            let windowFeatures = 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top;
+            window.open(url, '_blank', windowFeatures);
         }
     </script>
 </body>

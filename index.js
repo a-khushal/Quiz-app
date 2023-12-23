@@ -84,8 +84,13 @@ app.get("/management", async(req, res)=>{
     let students = await studentLoginDB.find();
     let teachers = await teacherLoginDB.find();
     res.render("admin/management.ejs",{teachers, students});
-
 })
+
+app.get("/management/new", (req, res)=>{
+    res.render("admin/addNew.ejs");
+});
+
+
 
 app.get("/studentLogin/:id", async(req, res)=>{
     const {id} = req.params;
