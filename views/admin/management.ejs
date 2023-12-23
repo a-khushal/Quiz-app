@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        #teacherTable{
+            display: none;
+        }
+        #studentTable{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>hi admin</h1>
+    <button onclick="showTable('teacherTable', 'teacherbtn')", id="teacherbtn">show all teachers</button>
+    <button onclick="showTable('studentTable', 'studentbtn')", id="studentbtn">show all students</button>
+    <div id="teacherTable" class="table-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(teacher of teachers){ %>
+                    <tr>
+                        <td><%= teacher.username %></td>
+                        <td><%= teacher.email %></td>
+                        <td><%= teacher.subject.name %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <div id="studentTable" class="table-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Subjects</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(student of students){ %>
+                    <tr>
+                        <td><%= student.username %></td>
+                        <td><%= student.email %></td>
+                        <td>
+                            <% for(sub of student.subject){ %>
+                                <%= sub.name %>,
+                            <% } %>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function showTable(tableId, btnId){
+            let selectedTable = document.getElementById(tableId);
+            let clickedbtn = document.getElementById(btnId);
+            if(tableId === 'teacherTable'){
+                if(selectedTable.style.display === 'none'||selectedTable.style.display === ''){
+                    selectedTable.style.display = 'block';
+                    clickedbtn.innerHTML = 'Hide all teachers';
+                }
+                else {
+                    selectedTable.style.display = 'none';
+                    clickedbtn.innerHTML = 'show all teachers';
+                }
+            } else{
+                if(selectedTable.style.display === 'none'||selectedTable.style.display === ''){
+                    selectedTable.style.display = 'block';
+                    clickedbtn.innerHTML = 'Hide all students';
+                }
+                else {
+                    selectedTable.style.display = 'none';
+                    clickedbtn.innerHTML = 'show all students';
+                }
+            } 
+        }
+    </script>
+</body>
+</html>

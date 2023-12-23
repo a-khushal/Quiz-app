@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
+const zod = require("zod");
+const jwt = require('jsonwebtoken');
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -56,15 +58,17 @@ app.get("/login", async(req, res) => {
 app.post("/login", async (req, res) => {
     try {
         let { email, password } = req.body;
+        if(email==='admin@gmail.com' && password==='adminrvce'){
+            res.redirect('/management');
+            return;
+        }
         let checkStudent = await studentLoginDB.findOne({ email, password });
         let checkTeacher = await teacherLoginDB.findOne({ email, password });
         if (checkStudent != null) {
-            // let userId = checkStudent._id;
             res.redirect(`/studentLogin/${checkStudent._id}`);
             return;
         }
         else if (checkTeacher != null) {
-            // let userId = checkTeacher._id;
             res.redirect(`/teacherLogin/${checkTeacher._id}`);
             return;
         }
@@ -75,6 +79,13 @@ app.post("/login", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+app.get("/management", async(req, res)=>{
+    let students = await studentLoginDB.find();
+    let teachers = await teacherLoginDB.find();
+    res.render("admin/management.ejs",{teachers, students});
+
+})
 
 app.get("/studentLogin/:id", async(req, res)=>{
     const {id} = req.params;
@@ -98,7 +109,6 @@ app.get("/teacherLogin/:id", async(req, res)=>{
         console.error("Error:", err);
         res.status(500).send("Internal Server Error");
     }
-    
 });
 
 app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
@@ -130,6 +140,8 @@ app.get("/studentLogin/:id/ME232AT", async(req, res)=>{
     let sub = "Material Science for Engineers";
     res.render("subjects_views/ME232AT.ejs");
 });
+
+
 
 app.listen(8080, () => {
     console.log("listening to port 8080");
