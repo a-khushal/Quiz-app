@@ -37,7 +37,8 @@
                 <tr>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Subject</th>
+                    <th>Subject Name</th>
+                    <th>Subject Code</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,6 +47,17 @@
                         <td><%= teacher.username %></td>
                         <td><%= teacher.email %></td>
                         <td><%= teacher.subject.name %></td>
+                        <td><%= teacher.subject.code %></td>
+                        <!-- <td>
+                            <div style="display: flex; justify-content: space-between;">
+                                <form action="/management/edit" method="put">
+                                    <button onclick="editTeacher()">edit</button>
+                                </form>
+                                <form action="">
+                                    <button>delete</button>
+                                </form>
+                            </div>
+                        </td> -->
                     </tr>
                 <% } %>
             </tbody>
