@@ -24,7 +24,7 @@
 
     <div id="teacherForm" style="display: none;">
         <h2>Add New Teacher</h2>
-        <form action="">
+        <form action="/management/new/teacher" method="post">
             <label for="username">Username</label>
             <input type="text" name="username"><br><br>
             <label for="email">Email</label>
@@ -40,6 +40,19 @@
 
     <div id="studentForm" style="display: none;">
         <h2>Add new Student</h2>
+        <form action="/management/new/student" method="post">
+            <label for="username">Username</label>
+            <input type="text" name="username"><br><br>
+            <label for="email">Email</label>
+            <input type="email" name="email"><br><br>
+            <% for(let i=1; i<=10; i++){ %>
+                <label for="<%= 'subjName' + i %>">Subject <%=i%> Name</label>
+                <input type="text" name="<%= 'subjName' + i %>"><br><br>
+                <label for="<%= 'subjCode' + i %>">Subject <%=i%> Code</label>
+                <input type="text" name="<%= 'subjCode' + i %>"><br><br><br>
+            <% } %>
+            <button>submit</button>
+        </form>
         <br><br>
         <button onclick="backButton()">back</button>
     </div>
