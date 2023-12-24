@@ -4,9 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login To Your Account</title>
+	
+
+
+	<link rel="stylesheet" href="./style.css">
+
 </head>
 <body>
-    <h1>Login</h1>
+	<div class="box-form">
+		<div class="left">
+			<div class="overlay">
+				<p style="text-align: center;">DEPARTMENT OF MATHEMATICS</p>
+			<h1>Quiz-App!</h1>
+			<p style="padding-top: 7%; font-size: larger;">A quiz competition is not just about knowledge,
+				it's about the thirst of knowledge.</p>
+			<span>
+				<p style="padding-top: 10% ; font-size: x-large;">Login with:</p>
+				<a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faccounts.google.com%2F&followup=https%3A%2F%2Faccounts.google.com%2F&ifkv=ASKXGp2MKN2vzwS7_RFOg8EJdMvllo1r_j458rQSkFH1qV0pAUQkLEVXokNGSEjDPfvYlUpmuycBUg&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1274564947%3A1703413906791481&theme=glif"><i class="fa fa-twitter" aria-hidden="true"></i> Login with Google</a>
+			</span>
+			</div>
+		</div>
+		<div class="right">
+			
+    <h5>Login</h5>
+	<p>Don't have an account? <a href="#">Request for an Account</a> </p>
     <br>
     <form action="/login" method="post">
         <div>
@@ -15,11 +36,13 @@
         </div>
         <br>
         <div>
-            <label for="password">password</label>
+            <label for="password">Password</label>
             <input type="password" name="password">
         </div>
         <br>
         <button>Login</button>
     </form>
+	</div>
+	</div>
 </body>
 </html>

@@ -4,6 +4,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const zod = require("zod");
 const jwt = require('jsonwebtoken');
+const exp = require("constants");
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -44,6 +45,7 @@ module.exports = {studentLoginDB, teacherLoginDB};
 app.get("/", (req, res) => {
     res.render("index.ejs");
 });
+app.use(express.static('public'));
 
 app.get("/login", async(req, res) => {
     try{
