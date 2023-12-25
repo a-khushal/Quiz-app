@@ -45,7 +45,33 @@ module.exports = {studentLoginDB, teacherLoginDB};
 app.get("/", (req, res) => {
     res.render("index.ejs");
 });
+
+
 app.use(express.static('public'));
+
+app.use(express.static(path.join(__dirname,'public')));
+
+let publicPath=path.join(__dirname,'public');
+console.log(publicPath);
+
+
+app.get('/html/why',(req,res)=>{
+    res.sendFile(`$(publicPath)/why.html`)
+});
+
+app.get('/html/about',(req,res)=>{
+    res.sendFile(`$(publicPath)/about.html`)
+});
+
+
+app.get('/html/contact',(req,res)=>{
+    res.sendFile(`$(publicPath)/contact.html`)
+});
+
+
+
+
+
 
 app.get("/login", async(req, res) => {
     try{
