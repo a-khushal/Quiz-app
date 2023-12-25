@@ -229,8 +229,6 @@ app.get("/studentLogin/:id/ME232AT", async(req, res)=>{
     res.render("subjects_views/ME232AT.ejs");
 });
 
-
-
 app.listen(8080, () => {
     console.log("listening to port 8080");
 });
