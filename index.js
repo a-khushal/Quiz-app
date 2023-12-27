@@ -199,6 +199,11 @@ app.get("/teacherLogin/:id", async(req, res)=>{
     }
 });
 
+app.get("/teacherLogin/:id/uploads", async(req, res)=>{
+    const teacherId = req.params.id;
+    res.render("uploads.ejs");
+})
+
 app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
     let sub = "Maths";
     res.render("subjects_views/MAT231CT.ejs");
