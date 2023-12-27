@@ -55,18 +55,19 @@ let publicPath=path.join(__dirname,'public');
 console.log(publicPath);
 
 
-app.get('/html/why',(req,res)=>{
-    res.sendFile(`$(publicPath)/why.html`)
+app.get('/why',(req,res)=>{
+    res.render("why.ejs")
 });
 
-app.get('/html/about',(req,res)=>{
-    res.sendFile(`$(publicPath)/about.html`)
-});
+ app.get('/about',(req,res)=>{
+     res.render("about.ejs")
+ });
 
 
-app.get('/html/contact',(req,res)=>{
-    res.sendFile(`$(publicPath)/contact.html`)
+app.get('/contact',(req,res)=>{
+     res.render("contact.ejs")
 });
+
 
 
 
