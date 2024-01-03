@@ -37,8 +37,18 @@ const teacherSchema = mongoose.Schema({
     }
 });
 
+const uplodaSchema = mongoose.Schema({
+    question: String,
+    options: [String],
+    teacherID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "teacherLoginDB",
+    }
+});
+
 const studentLoginDB = mongoose.model("studentLoginDB", studentSchema);
 const teacherLoginDB = mongoose.model("teacherLoginDB", teacherSchema);
+const uploadDB = mongoose.model("uploadDB", uplodaSchema);
 module.exports = {studentLoginDB, teacherLoginDB};
 
 
@@ -200,8 +210,40 @@ app.get("/teacherLogin/:id", async(req, res)=>{
 });
 
 app.get("/teacherLogin/:id/uploads", async(req, res)=>{
-    const teacherId = req.params.id;
     res.render("uploads.ejs");
+})
+
+app.post("/teacherLogin/:id/uploads", async(req, res)=>{
+    const uploadID = req.params.id;
+    const {question, opta, optb, optc, optd} = req.body;
+    const newUpload = await uploadDB.create({
+        question: question,
+        options:[opta, optb, optc, optd],
+    });
+    let newID = newUpload._id;
+    newID = newID.toString();
+    let newIDArr = newID.split("'");
+    console.log(newIDArr[0]);
+    // await uploadDB.findByIdAndUpdate(newIDArr[0], {"$push":{teacherID: uploadID}});
+
+    const updatedDocument = await uploadDB.findByIdAndUpdate(
+        newIDArr[0],
+        { $push: { teacherID: uploadID } },
+        { new: true } // To get the updated document
+      ).exec();
+    
+      // Handle the updated document
+      console.log(updatedDocument);
+      res.json(updatedDocument);
+    
+
+    // const newUpload = new uploadDB({
+    //     _id: uploadID,
+    //     question: question,
+    //     options:[opta, optb, optc, optd],
+    // });
+    // await newUpload.save();
+    res.send('done');
 })
 
 app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
