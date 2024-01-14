@@ -7,6 +7,14 @@
 </head>
 <body>
     <h1>Maths</h1><br><br>
-    <h3>No Quizes or Tests Scheduled Currently!!</h3>
+    <div>
+        <% quizQues.forEach((quiz)=>{ %>
+            <h4><%=quiz.question%></h4>
+            <h5><%=quiz.options[0]%></h5>
+            <h5><%=quiz.options[1]%></h5>
+            <h5><%=quiz.options[2]%></h5>
+            <h5><%=quiz.options[3]%></h5>
+        <% }) %>
+    </div>
 </body>
 </html>

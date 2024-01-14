@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 400px;
+            /* border-collapse: collapse; */
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        .empty {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <% if(ques.length!=0){ %>
+        <% for (let i = 0; i < ques.length; i++) { %>
+            <table>
+                <tr>
+                    <!-- <th>sl no</th> -->
+                    <th>Question</th>
+                    <th>Options</th>
+                </tr>
+                <tr>
+                    <td class="empty"></td>
+                    <td><%= ques[i].options[0] %></td>
+                </tr>
+                <tr>
+                    <td class="empty"><%= ques[i].question %></td>
+                    <td><%= ques[i].options[1] %></td>
+                </tr>
+                <tr>
+                    <td class="empty"></td>
+                    <td><%= ques[i].options[2] %></td>
+                </tr>
+                <tr>
+                    <td class="empty">
+                        <form action="/teacherLogin/<%=uploadID%>/uploads/viewAllUploads/delete/<%=ques[i]._id%>", method="post">
+                            <button>delete</button>
+                        </form>
+                    </td>
+                    <td><%= ques[i].options[3] %></td>
+                </tr>
+            </table>
+            <br><br>
+        <% } %>
+    <% } else{ %>
+        No questions added!
+    <% } %>
+
+    <form action="/teacherLogin/<%=uploadID%>/uploads", method="get">
+        <button>back</button>
+    </form>
+
+</body>
+</html>
