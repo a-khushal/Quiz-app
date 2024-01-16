@@ -8,6 +8,10 @@
 <body>
     <h1>Maths</h1><br><br>
     <div>
+        <center>
+            <div id="timer"></div>
+        </center>
+
         <% quizQues.forEach((quiz)=>{ %>
             <h4><%=quiz.question%></h4>
             <h5><%=quiz.options[0]%></h5>
@@ -16,5 +20,31 @@
             <h5><%=quiz.options[3]%></h5>
         <% }) %>
     </div>
+    <script>
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10)
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            let time =  <%= timeInterval %> * 60; // time in seconds here
+            display = document.querySelector('#timer');
+            startTimer(time, display);
+        };
+    </script>
 </body>
 </html>
+
+

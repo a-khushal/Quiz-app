@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0; 
+        }   
+    </style>
 </head>
 <body>
     upload questions
@@ -25,13 +34,22 @@
         <button>View all uploaded questions</button>
     </form>
     <br><br>
+
+    <form action="/teacherLogin/<%=id%>/uploads/<%=subjCode%>/timeInput", method="post">
+        <label for="timeInput">Enter the quiz interval in minutes</label>
+        <input type="number" name="timeInput" id="timeInput"> 
+        <button>Enter</button>
+    </form>
+    <br>
+    Entered time: <%= timeInput %> mins
+    <br><br><br>
     <% if(allQuesLen != 0) { %>
         <form id="makeLiveForm" action="/teacherLogin/<%=id%>/uploads/<%=subjCode%>", method="post">
             <%async function deleteFunc(){%>
                 <%await btnStatusDB.deleteMany({})%>
             <%}%>
             <%deleteFunc()%>
-            <button >make quiz live</button>
+            <button>make quiz live</button>
         </form>
     <%} else {%>
         <button disabled>make quiz live</button>

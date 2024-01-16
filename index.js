@@ -48,10 +48,17 @@ const btnStatusSchema = mongoose.Schema({
     state: Boolean,
 })
 
+const timeSchema = mongoose.Schema({
+    teacherID: String,
+    timeInMins: Number,
+    subjCode: String,
+})
+
 const studentLoginDB = mongoose.model("studentLoginDB", studentSchema);
 const teacherLoginDB = mongoose.model("teacherLoginDB", teacherSchema);
 const uploadDB = mongoose.model("uploadDB", uplodaSchema);
 const btnStatusDB = mongoose.model('btnStatusDB', btnStatusSchema);
+const timeIntervalDB = mongoose.model("timeIntervalDB", timeSchema)
 module.exports = {studentLoginDB, teacherLoginDB, btnStatusDB, uploadDB};
 
 app.get("/", (req, res) => {
@@ -239,14 +246,23 @@ app.get("/teacherLogin/:id/uploads", async(req, res)=>{
     const subjCode = subjTeacher.subject.code;
     const allQues = await uploadDB.find({subjCode: subjCode});
     allQuesLen = allQues.length;
-    res.render("uploads.ejs", {id, subjCode, btnStatusDB, allQuesLen});
-
+    let timeInput=0;
+    const detailOfTeacherInputTime = await timeIntervalDB.find({teacherID: id});
+    if(detailOfTeacherInputTime.length == 0){
+        timeInput=0;
+        // console.log(timeInput);
+    }
+    else{
+        timeInput = detailOfTeacherInputTime[0].timeInMins;
+        // console.log(timeInput);
+    }
+    res.render("uploads.ejs", {id, subjCode, btnStatusDB, allQuesLen, timeInput});
 })
 
 app.post("/teacherLogin/:id/uploads/done", async(req, res)=>{
     const uploadID = req.params.id;
     const {question, opta, optb, optc, optd} = req.body;
-    const subjTeacher = await teacherLoginDB.findById(uploadID);
+    const subjTeacher = await teacherLoginDB.findById(uploadID)
     const subjCode = subjTeacher.subject.code;
     await uploadDB.create({
         question: question,
@@ -274,16 +290,25 @@ app.post("/teacherLogin/:id/uploads/:subjCode", async(req, res)=>{
     res.send("quiz is live");
 })
 
+app.post("/teacherLogin/:id/uploads/:subjCode/timeInput", async(req, res)=>{
+    const {id, subjCode} = req.params;
+    const {timeInput} = req.body;
+    await timeIntervalDB.deleteMany({teacherID: id});
+    await timeIntervalDB.create({teacherID: id, timeInMins: timeInput, subjCode: subjCode});
+    res.redirect(`/teacherLogin/${id}/uploads`)
+})
+
 app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
     const quizQues = await uploadDB.find({subjCode: 'MAT231CT'});
+    const timeCollection = await timeIntervalDB.find({subjCode: 'MAT231CT'})
+    const timeInterval = timeCollection[0].timeInMins;
     module.exports = quizQues;
-    let sub = "Maths";
     const stateVar = await btnStatusDB.find();
     if(stateVar.length == 0){
         res.send("no quizes currently");
     }
     else{
-        res.render("subjects_views/MAT231CT.ejs", {quizQues});
+        res.render("subjects_views/MAT231CT.ejs", {quizQues, timeInterval});
     }
 });
 
