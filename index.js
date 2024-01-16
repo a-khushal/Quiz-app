@@ -53,7 +53,7 @@ const studentLoginDB = mongoose.model("studentLoginDB", studentSchema);
 const teacherLoginDB = mongoose.model("teacherLoginDB", teacherSchema);
 const uploadDB = mongoose.model("uploadDB", uplodaSchema);
 const btnStatusDB = mongoose.model('btnStatusDB', btnStatusSchema);
-module.exports = {studentLoginDB, teacherLoginDB, btnStatusDB};
+module.exports = {studentLoginDB, teacherLoginDB, btnStatusDB, uploadDB};
 
 app.get("/", (req, res) => {
     res.render("index.ejs");
@@ -255,7 +255,7 @@ app.post("/teacherLogin/:id/uploads/:subjCode", async(req, res)=>{
 
 app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
     const quizQues = await uploadDB.find({subjCode: 'MAT231CT'});
-    console.log(quizQues);
+    module.exports = quizQues;
     let sub = "Maths";
     const stateVar = await btnStatusDB.find();
     if(stateVar.length == 0){
