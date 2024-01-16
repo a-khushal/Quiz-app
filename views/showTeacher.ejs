@@ -22,6 +22,10 @@
 </head>
 <body>
     <h1>Welcome <%=username%></h1>
+    <form id="uploadsForm" method="get"> 
+        <button style="float: right;">upload questions for a quiz</button>
+    </form>
+
     <p><%=subject.code%>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=subject.name%> </p>
     <table>
         <thead>
@@ -40,6 +44,11 @@
         </tbody>
     </table>
     
+
+    <script>
+        const teacher_Id = '<%= id %>';
+        document.getElementById("uploadsForm").action = `/teacherLogin/${teacher_Id}/uploads`;
+    </script>
 
 </body>
 </html>

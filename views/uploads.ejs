@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    upload questions
+    <br><br><br>
+    <form action="/teacherLogin/<%=id%>/uploads/done", method="post">
+        <label for="question">question</label>
+        <textarea name="question" id="" cols="30" rows="3"></textarea><br><br>
+        <label for="opta">Option A</label>
+        <input type="text" name="opta"><br><br>
+        <label for="optb">Option B</label>
+        <input type="text" name="optb"><br><br>
+        <label for="optc">Option C</label>
+        <input type="text" name="optc"><br><br>
+        <label for="optd">Option D</label>
+        <input type="text" name="optd"><br><br>
+        <button>sumbit</button>
+    </form><br><br>
+    <form action="/teacherLogin/<%=id%>/uploads/viewAllUploads", method="get">
+        <button>View all uploaded questions</button>
+    </form>
+    <br><br>
+    <% if(allQuesLen != 0) { %>
+        <form id="makeLiveForm" action="/teacherLogin/<%=id%>/uploads/<%=subjCode%>", method="post">
+            <%async function deleteFunc(){%>
+                <%await btnStatusDB.deleteMany({})%>
+            <%}%>
+            <%deleteFunc()%>
+            <button >make quiz live</button>
+        </form>
+    <%} else {%>
+        <button disabled>make quiz live</button>
+    <% } %>    
+    <br><br>
+    <form action="/teacherLogin/<%=id%>" method="get">
+        <button>back</button>
+    </form>    
+</body>
+</html>

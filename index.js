@@ -37,15 +37,26 @@ const teacherSchema = mongoose.Schema({
     }
 });
 
+const uplodaSchema = mongoose.Schema({
+    question: String,
+    options: [String],
+    teacherID: String,
+    subjCode: String,
+});
+
+const btnStatusSchema = mongoose.Schema({
+    state: Boolean,
+})
+
 const studentLoginDB = mongoose.model("studentLoginDB", studentSchema);
 const teacherLoginDB = mongoose.model("teacherLoginDB", teacherSchema);
-module.exports = {studentLoginDB, teacherLoginDB};
-
+const uploadDB = mongoose.model("uploadDB", uplodaSchema);
+const btnStatusDB = mongoose.model('btnStatusDB', btnStatusSchema);
+module.exports = {studentLoginDB, teacherLoginDB, btnStatusDB, uploadDB};
 
 app.get("/", (req, res) => {
     res.render("index.ejs");
 });
-
 
 app.use(express.static('public'));
 
@@ -67,12 +78,6 @@ app.get('/why',(req,res)=>{
 app.get('/contact',(req,res)=>{
      res.render("contact.ejs")
 });
-
-
-
-
-
-
 
 app.get("/login", async(req, res) => {
     try{
@@ -228,9 +233,58 @@ app.get("/teacherLogin/:id", async(req, res)=>{
     }
 });
 
+app.get("/teacherLogin/:id/uploads", async(req, res)=>{
+    const id = req.params.id;
+    const subjTeacher = await teacherLoginDB.findById(id)
+    const subjCode = subjTeacher.subject.code;
+    const allQues = await uploadDB.find({subjCode: subjCode});
+    allQuesLen = allQues.length;
+    res.render("uploads.ejs", {id, subjCode, btnStatusDB, allQuesLen});
+
+})
+
+app.post("/teacherLogin/:id/uploads/done", async(req, res)=>{
+    const uploadID = req.params.id;
+    const {question, opta, optb, optc, optd} = req.body;
+    const subjTeacher = await teacherLoginDB.findById(uploadID);
+    const subjCode = subjTeacher.subject.code;
+    await uploadDB.create({
+        question: question,
+        options:[opta, optb, optc, optd],
+        teacherID: uploadID,
+        subjCode: subjCode,
+    });
+    res.redirect(`/teacherLogin/${uploadID}/uploads`);
+})
+
+app.get("/teacherLogin/:id/uploads/viewAllUploads", async(req, res)=>{
+    const uploadID = req.params.id;
+    const ques = await uploadDB.find({teacherID: uploadID});
+    res.render("viewAllUploads.ejs", {ques, uploadID});
+})
+
+app.post("/teacherLogin/:id/uploads/viewAllUploads/delete/:quesID", async(req, res)=>{
+    await uploadDB.findByIdAndDelete(req.params.quesID);
+    res.redirect(`/teacherLogin/${req.params.id}/uploads/viewAllUploads`);
+})
+
+app.post("/teacherLogin/:id/uploads/:subjCode", async(req, res)=>{
+    await btnStatusDB.deleteMany({});
+    await btnStatusDB.insertMany({state: true});
+    res.send("quiz is live");
+})
+
 app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
+    const quizQues = await uploadDB.find({subjCode: 'MAT231CT'});
+    module.exports = quizQues;
     let sub = "Maths";
-    res.render("subjects_views/MAT231CT.ejs");
+    const stateVar = await btnStatusDB.find();
+    if(stateVar.length == 0){
+        res.send("no quizes currently");
+    }
+    else{
+        res.render("subjects_views/MAT231CT.ejs", {quizQues});
+    }
 });
 
 app.get("/studentLogin/:id/BT232AT", async(req, res)=>{
@@ -257,8 +311,6 @@ app.get("/studentLogin/:id/ME232AT", async(req, res)=>{
     let sub = "Material Science for Engineers";
     res.render("subjects_views/ME232AT.ejs");
 });
-
-
 
 app.listen(8080, () => {
     console.log("listening to port 8080");
