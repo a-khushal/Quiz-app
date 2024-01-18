@@ -1,47 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html >
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 50%;
-            margin: 20px;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        #teacherTable{
-            display: none;
-        }
-        #studentTable{
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Fixed table header</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  
+      <link rel="stylesheet" href="/css/management.css">
+
+      <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+      <!-- progress barstle -->
+      <link rel="stylesheet" href="/css/css-circular-prog-bar.css">
+      <!-- fonts style -->
+      <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Raleway:400,600&display=swap" rel="stylesheet">
+      <!-- font wesome stylesheet -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      <!-- Custom styles for this template -->
+      <link href="/css/style_index.css" rel="stylesheet" />
+      <!-- responsive style -->
+      <link href="/css/responsive.css" rel="stylesheet" />
+    
+    
+    
+    
+      <link rel="stylesheet" href="/css/css-circular-prog-bar.css">
+    
+
+    
 </head>
-<body>
-    <h1>hi admin</h1>
-    <button onclick="showTable('teacherTable', 'teacherbtn')", id="teacherbtn">show all teachers</button>
-    <button onclick="showTable('studentTable', 'studentbtn')", id="studentbtn">show all students</button><br><br>
-    <button onclick="openNewWindow()">add new student/teacher</button>
+<body style="align-self: center;">
+    
+
+
+
+
+
+
+
+
+    <header class="header_section">
+        <div class="container">
+          <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" href="index.html">
+              <span style="font-size: xxx-large;">
+                QUIZ-App
+              </span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+  
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+                <ul class="navbar-nav  ">
+                 
+                  
+                    <li class="nav-item">
+                      <a class="nav-link" > <button onclick="showTable('teacherTable', 'teacherbtn')", id="teacherbtn" style="background: none; cursor: pointer ;color:white" >View Teachers</button> </a>
+                    </li>
+  
+                  
+                
+                  <li class="nav-item">
+
+                    <a class="nav-link" > 
+                        <button onclick="showTable('studentTable', 'studentbtn')", id="studentbtn" style="background: none; cursor: pointer ;color: white;">View Students</button>
+                 </a>
+                  </li>
+                
+                
+                  <li class="nav-item">
+                    <a class="nav-link" > 
+                        <button onclick="openNewWindow()" style="background: none; cursor: pointer ; color: white ;" >Add new User</button>
+                         </a>
+                  </li>
+             
+                </ul>
+              </div>
+          </nav>
+        </div>
+      </header>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
     <div id="teacherTable" class="table-content">
-        <table>
-            <thead>
+        <div class="tbl-header">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <thead>
                 <tr>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Subject Name</th>
                     <th>Subject Code</th>
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+            </table>
+          </div>
+        
+                <div class="tbl-content">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                      <tbody>
                 <% for(teacher of teachers){ %>
                     <tr>
                         <td><%= teacher.username %></td>
@@ -62,16 +133,22 @@
                 <% } %>
             </tbody>
         </table>
+        </div>
     </div>
     <div id="studentTable" class="table-content">
-        <table>
-            <thead>
+        <div class="tbl-header">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <thead>
                 <tr>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Subjects</th>
                 </tr>
             </thead>
+            </table>
+            </div>
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0">
             <tbody>
                 <% for(student of students){ %>
                     <tr>
@@ -86,6 +163,7 @@
                 <% } %>
             </tbody>
         </table>
+        </div>
     </div>
     <script>
         function showTable(tableId, btnId){
@@ -94,20 +172,20 @@
             if(tableId === 'teacherTable'){
                 if(selectedTable.style.display === 'none'||selectedTable.style.display === ''){
                     selectedTable.style.display = 'block';
-                    clickedbtn.innerHTML = 'Hide all teachers';
+                    clickedbtn.innerHTML = 'Hide teachers';
                 }
                 else {
                     selectedTable.style.display = 'none';
-                    clickedbtn.innerHTML = 'show all teachers';
+                    clickedbtn.innerHTML = 'View teachers';
                 }
             } else{
                 if(selectedTable.style.display === 'none'||selectedTable.style.display === ''){
                     selectedTable.style.display = 'block';
-                    clickedbtn.innerHTML = 'Hide all students';
+                    clickedbtn.innerHTML = 'Hide students';
                 }
                 else {
                     selectedTable.style.display = 'none';
-                    clickedbtn.innerHTML = 'show all students';
+                    clickedbtn.innerHTML = 'View students';
                 }
             } 
         }
@@ -121,5 +199,8 @@
             window.open(url, '_blank', windowFeatures);
         }
     </script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+    <script src="js/index.js"></script>
 </body>
 </html>
