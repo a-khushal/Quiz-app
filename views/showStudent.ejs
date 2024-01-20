@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Student</title>
+    <link rel="stylesheet" href="/css/student.css">
 </head>
 <body>
-    <h1>Welcome <%=username%></h1>
-    <h3>Subjects: </h3>
+    <center>
+    <h1 style="font-size:300%;">Welcome <%=username%></h1>
+    <a style="font-size: xx-large;">Courses </a>
+    
+    <ol style="--length: 5" role="list">
+        
     <div style="display:inline-block;">
         <% for(subject of subjectArr){ %>
-            <div style="margin-top: 25px; margin-left: 25px; cursor: pointer; border: 2px solid black; box-shadow: 2px 2px 3px black; font-size: 30px;" onclick="window.location.href='/studentLogin/<%=id%>/<%=subject.code%>';"><%=subject.code%> &nbsp;&nbsp;&nbsp;&nbsp;<%=subject.name%></div><br>
+            <div  onclick="window.location.href='/studentLogin/<%=id%>/<%=subject.code%>';"><li style="--i: 1;"><%=subject.code%> &nbsp;&nbsp;&nbsp;&nbsp;<%=subject.name%></li></div><br>
         <% } %>
+     
     </div>
+</ol>
+</center>
 </body>
 </html>
