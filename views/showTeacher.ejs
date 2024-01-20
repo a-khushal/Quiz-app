@@ -4,50 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 50%;
-            margin: 20px;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
-<body>
+<body class="mx-5 my-5">
     <h1>Welcome <%=username%></h1>
     <form id="uploadsForm" method="get"> 
         <button style="float: right;">upload questions for a quiz</button>
     </form>
-
     <p><%=subject.code%>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=subject.name%> </p>
-    <table>
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th>Username</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% for (subStud of subStudArr) { %>
-                <tr>
-                    <td><%= subStud.email%></td>
-                    <td><%= subStud.username %></td>
-                </tr>
-            <% } %>
-        </tbody>
-    </table>
     
+    <div class="row row-cols-1 row-cols-md-3 g-4">
 
+        <a href="/teacherLogin/<%= id %>/cy" style="text-decoration: none;">
+            <div class="col" style="cursor: pointer;">
+            <div class="card h-100">
+                <div class="card-body">
+                <h5 class="card-title">Cyber-Security</h5>
+                <p class="card-text">Number of Students:</p>
+                </div>
+                <div class="card-footer">
+                <small class="text-body-secondary">Last updated 3 mins ago</small>
+                </div>
+            </div>
+            </div>
+        </a>
+
+        <a href="/teacherLogin/<%= id %>/cd" style="text-decoration: none;">
+            <div class="col" style="cursor: pointer;">
+            <div class="card h-100">
+                <div class="card-body">
+                <h5 class="card-title">Data-Science title</h5>
+                <p class="card-text">Number of Students:</p>
+                </div>
+                <div class="card-footer">
+                <small class="text-body-secondary">Last updated 3 mins ago</small>
+                </div>
+            </div>
+            </div>
+        </a>
+
+        <a href="/teacherLogin/<%= id %>/cs" style="text-decoration: none;">
+            <div class="col" style="cursor: pointer;">
+            <div class="card h-100">
+                <div class="card-body">
+                <h5 class="card-title">Computer-Science</h5>
+                <p class="card-text">Number of Students:</p>
+                </div>
+                <div class="card-footer">
+                <small class="text-body-secondary">Last updated 3 mins ago</small>
+                </div>
+            </div>
+            </div>
+        </a>
+      </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script>
-        const teacher_Id = '<%= id %>';
-        document.getElementById("uploadsForm").action = `/teacherLogin/${teacher_Id}/uploads`;
+        document.getElementById("uploadsForm").action = `/teacherLogin/<%= id %>/uploads`;
     </script>
 
 </body>

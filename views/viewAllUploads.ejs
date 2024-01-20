@@ -24,32 +24,26 @@
         <% for (let i = 0; i < ques.length; i++) { %>
             <table>
                 <tr>
-                    <!-- <th>sl no</th> -->
                     <th>Question</th>
                     <th>Options</th>
                 </tr>
-                <tr>
-                    <td class="empty"></td>
-                    <td><%= ques[i].options[0] %></td>
-                </tr>
-                <tr>
-                    <td class="empty"><%= ques[i].question %></td>
-                    <td><%= ques[i].options[1] %></td>
-                </tr>
-                <tr>
-                    <td class="empty"></td>
-                    <td><%= ques[i].options[2] %></td>
-                </tr>
-                <tr>
-                    <td class="empty">
-                        <form action="/teacherLogin/<%=uploadID%>/uploads/viewAllUploads/delete/<%=ques[i]._id%>", method="post">
-                            <button>delete</button>
-                        </form>
-                    </td>
-                    <td><%= ques[i].options[3] %></td>
-                </tr>
-            </table>
-            <br><br>
+                <% for(let j=0; j < (ques[i].options).length; j++) { %>
+                    <tr>
+                        <td class="empty">
+                            <% if(j == (((ques[i].options).length)-1)) { %>
+                                <form action="/teacherLogin/<%=uploadID%>/uploads/viewAllUploads/delete/<%=ques[i]._id%>", method="post">
+                                    <button>delete</button>
+                                </form>
+                            <% } %>
+                            
+                            <% if(j == 0) { %>
+                                <%= ques[i].question %>
+                            <% } %>
+                        </td>
+                        <td><%= ques[i].options[j] %></td>
+                    </tr>
+                <% } %>
+            </table> <br><br>
         <% } %>
     <% } else{ %>
         No questions added!

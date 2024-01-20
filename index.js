@@ -42,6 +42,7 @@ const uplodaSchema = mongoose.Schema({
     options: [String],
     teacherID: String,
     subjCode: String,
+    correctAns: [String],
 });
 
 const btnStatusSchema = mongoose.Schema({
@@ -240,6 +241,18 @@ app.get("/teacherLogin/:id", async(req, res)=>{
     }
 });
 
+app.get('/teacherLogin/:id/cy', async(req,res)=>{
+    res.send("hi")
+})
+
+app.get('/teacherLogin/:id/cd', async(req,res)=>{
+    res.send("hi")
+})
+
+app.get('/teacherLogin/:id/cs', async(req,res)=>{
+    res.send("hi")
+})
+
 app.get("/teacherLogin/:id/uploads", async(req, res)=>{
     const id = req.params.id;
     const subjTeacher = await teacherLoginDB.findById(id)
@@ -259,23 +272,30 @@ app.get("/teacherLogin/:id/uploads", async(req, res)=>{
     res.render("uploads.ejs", {id, subjCode, btnStatusDB, allQuesLen, timeInput});
 })
 
-app.post("/teacherLogin/:id/uploads/done", async(req, res)=>{
-    const uploadID = req.params.id;
-    const {question, opta, optb, optc, optd} = req.body;
-    const subjTeacher = await teacherLoginDB.findById(uploadID)
-    const subjCode = subjTeacher.subject.code;
+app.post("/teacherLogin/:id/uploads/done/:numberOfQues", async(req, res)=>{
+    let correctAns = [];
+    let options = [];
+    for(let i=1; i<=(parseInt(req.params.numberOfQues)); i++){
+        options.push(req.body[`opt${i}`]); 
+        if(req.body[`correct${i}`]){
+            correctAns.push(req.body[`opt${i}`]);
+        }
+    }
+    const subjTeacher = await teacherLoginDB.findById(req.params.id);
     await uploadDB.create({
-        question: question,
-        options:[opta, optb, optc, optd],
-        teacherID: uploadID,
-        subjCode: subjCode,
+        question: req.body.question,
+        options: options,
+        teacherID: req.params.id,
+        subjCode: subjTeacher.subject.code,
+        correctAns: correctAns,
     });
-    res.redirect(`/teacherLogin/${uploadID}/uploads`);
+    res.redirect(`/teacherLogin/${req.params.id}/uploads`);
 })
 
 app.get("/teacherLogin/:id/uploads/viewAllUploads", async(req, res)=>{
     const uploadID = req.params.id;
     const ques = await uploadDB.find({teacherID: uploadID});
+    // console.log(ques[0].options)
     res.render("viewAllUploads.ejs", {ques, uploadID});
 })
 
@@ -314,7 +334,7 @@ app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
 
 app.get("/studentLogin/:id/BT232AT", async(req, res)=>{
     let sub = "maths";
-    res.render("subjects_views/MAT231CT.ejs");
+    res.render("subjects_views/BT232AT.ejs");
 });
 
 app.get("/studentLogin/:id/IS233AI", async(req, res)=>{
