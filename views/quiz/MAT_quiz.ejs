@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Maths</h1><br><br>
+    <div id="quizStatus"></div> 
+    <div id="quizComponent" class="hidden">
+        <center>
+            <div id="timer"></div>
+        </center>
+        <form action="">
+            <div>
+                <% quizQues.forEach((quiz) => { %>
+                    <br><br><br>
+                    <h4><%=quiz.question%></h4>
+                    <% (quiz.options).forEach((option) => { %>
+                        <%if((quiz.options).length > 0){%>
+                            <input type="checkbox">
+                        <% } else { %>
+                            <input type="radio">
+                        <% } %>&nbsp;&nbsp;&nbsp;
+                        <label><%=option%></label><br><br>
+                    <%})%>
+                <% }) %>
+            </div><br><br><br>
+            <button>submit</button>
+        </form>
+    </div>
+    <script>
+        function startTimer(duration, display, quizStatusElement) {
+            let timer = duration;
+            let storedTimer = localStorage.getItem('timerValue');
+            if (storedTimer !== null) {
+                timer = parseInt(storedTimer, 10);
+                display.textContent = formatTime(timer);
+            } else {
+                display.textContent = formatTime(timer);
+            }
+
+            setInterval(function () {
+                display.textContent = formatTime(timer);
+
+                localStorage.setItem('timerValue', timer);
+
+                if (--timer < 0) {
+                    timer = 0;
+                    localStorage.removeItem('timerValue');
+                    quizStatusElement.textContent = "Your quiz ended";
+                    document.getElementById('quizComponent').classList.add('hidden');
+                }
+            }, 1000);
+        }
+
+        function formatTime(time) {
+            let minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            return minutes + ":" + seconds;
+        }
+
+        window.onload = function () {
+            let time = <%= timeInterval %> * 60;
+            let display = document.querySelector('#timer');
+            let quizStatusElement = document.querySelector('#quizStatus');
+            let quizComponent = document.getElementById('quizComponent');
+            quizComponent.classList.remove('hidden');
+
+            startTimer(time, display, quizStatusElement);
+        };
+    </script>
+</body>
+</html>

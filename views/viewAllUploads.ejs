@@ -22,6 +22,7 @@
 <body>
     <% if(ques.length!=0){ %>
         <% for (let i = 0; i < ques.length; i++) { %>
+            marks: <%= ques[i].marksOfEachQues %>
             <table>
                 <tr>
                     <th>Question</th>
@@ -43,12 +44,17 @@
                         <td><%= ques[i].options[j] %></td>
                     </tr>
                 <% } %>
-            </table> <br><br>
+            </table> <br>
+            Total marks: <%= ques[i].totalMarks %> <br><br>
+            correct answers: 
+            <% for(let k=0; k<(ques[i].correctAns).length; k++) { %>
+                <p><%= ques[i].correctAns[k] %></p>
+            <% } %>
         <% } %>
     <% } else{ %>
         No questions added!
     <% } %>
-
+    <br><br>
     <form action="/teacherLogin/<%=uploadID%>/uploads", method="get">
         <button>back</button>
     </form>

@@ -21,6 +21,7 @@ const studentData = [
                 code: "CS234AI",
             },
         ],
+        branch: 'cy',
     },
     {
         username: "Kishore A",
@@ -44,6 +45,7 @@ const studentData = [
                 code: "CS234AI",
             },
         ],
+        branch: 'cy',
     },
     {
         username: "Deekshith V",
@@ -67,6 +69,7 @@ const studentData = [
                 code: "CS234AI",
             },
         ],
+        branch: 'cy',
     },
     {
         username: "Dharmik J Rai",
@@ -90,6 +93,7 @@ const studentData = [
                 code: "CS234AI",
             },
         ],
+        branch: 'cy',
     },
     {
         username: "Karthik N",
@@ -113,6 +117,7 @@ const studentData = [
                 code: "CS234AI",
             },
         ],
+        branch: 'cy',
     },
     {
         username: "Santhosh Kumar L",
@@ -136,6 +141,7 @@ const studentData = [
                 code: "CS234AI",
             },
         ],
+        branch: 'cy',
     },
     {
         username: "Amogh A Joshi",
@@ -159,6 +165,7 @@ const studentData = [
                 code: "CS234AI",
             },
         ],
+        branch: 'cy',
     },
     {
         username: "Prajwal U",
@@ -182,6 +189,7 @@ const studentData = [
                 code: "CS234AI",
             },
         ],
+        branch: 'cy',
     },
 ]
 

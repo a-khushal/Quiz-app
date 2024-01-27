@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const data = require("./loginData");
-const { studentLoginDB, teacherLoginDB } = require("../index.js");
+const { studentLoginDB, teacherLoginDB , uploadDB, timeIntervalDB, btnStatusDB} = require("../index.js");
 
 main()
     .then(()=>{
@@ -17,6 +17,9 @@ async function main(){
 const initDb = async()=>{
     await studentLoginDB.deleteMany({});
     await teacherLoginDB.deleteMany({});
+    await uploadDB.deleteMany({});
+    await timeIntervalDB.deleteMany({});
+    await btnStatusDB.deleteMany({});
 
     await studentLoginDB.insertMany(data.studentData);
     await teacherLoginDB.insertMany(data.teacherData);
