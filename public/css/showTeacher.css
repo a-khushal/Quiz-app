@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+
+
+body {
+    background: linear-gradient(to right, #b77ded, #ea87ef);/*#8e44ad, #c0392b*/
+    /* Purple gradient background */
+    color: #fff;
+    /* White text color */
+    font-family: Montserrat, sans-serif;
+}
+
+h1{
+    font-size: 300%;
+    font-weight: bold;
+    color: black;
+}
+
+.course{
+    font-size: 200%;
+    color: black;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Semi-transparent white background for cards */
+    color: #333;
+    /* Dark text color on cards */
+    border-radius: 10px;
+    /* Rounded corners for cards */
+    transition: transform 0.3s ease-in-out;
+    /* Smooth transition for card hover effect */
+}
+
+.card:hover {
+    transform: scale(1.05);
+    /* Scale up the card on hover */
+}
+
+.card-title {
+    color: #8e44ad;
+    /* Purple title color */
+}
+
+.card-footer {
+    background-color: rgba(255, 255, 255, 0.6);
+    /* Semi-transparent white background for card footer */
+}
+
+.container {
+    text-align: center;
+    margin-bottom: 20px;
+    /* Adjust as needed */
+}
+
+
+.styled-button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    
+}
+
+.styled-button:hover {
+    background-color: #2980b9;
+}
