@@ -1,27 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        table {
-            width: 400px;
-            /* border-collapse: collapse; */
-        }
-        table, th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        .empty {
-            border: none;
-        }
-    </style>
+
+    <link rel="stylesheet" href="/css/allUploads.css">
+
 </head>
+
 <body>
     <% if(ques.length!=0){ %>
-        <% for (let i = 0; i < ques.length; i++) { %>
+        <h2>The Questions Submitted are:</h2>
+        <% for (let i=0; i < ques.length; i++) { %>
             <table>
                 <tr>
                     <th>Question</th>
@@ -30,28 +22,33 @@
                 <% for(let j=0; j < (ques[i].options).length; j++) { %>
                     <tr>
                         <td class="empty">
-                            <% if(j == (((ques[i].options).length)-1)) { %>
-                                <form action="/teacherLogin/<%=uploadID%>/uploads/viewAllUploads/delete/<%=ques[i]._id%>", method="post">
-                                    <button>delete</button>
+                            <% if(j==(((ques[i].options).length)-1)) { %>
+                                <form
+                                    action="/teacherLogin/<%=uploadID%>/uploads/viewAllUploads/delete/<%=ques[i]._id%>"
+                                    , method="post">
+                                    <button>Delete</button>
                                 </form>
-                            <% } %>
-                            
-                            <% if(j == 0) { %>
-                                <%= ques[i].question %>
-                            <% } %>
-                        </td>
-                        <td><%= ques[i].options[j] %></td>
-                    </tr>
-                <% } %>
-            </table> <br><br>
-        <% } %>
-    <% } else{ %>
-        No questions added!
-    <% } %>
+                                <% } %>
 
-    <form action="/teacherLogin/<%=uploadID%>/uploads", method="get">
-        <button>back</button>
-    </form>
+                                    <% if(j==0) { %>
+                                        <%= ques[i].question %>
+                                            <% } %>
+                        </td>
+                        <td>
+                            <%= ques[i].options[j] %>
+                        </td>
+                    </tr>
+                    <% } %>
+            </table> <br><br>
+            <% } %>
+                <% } else{ %>
+                    <h2>No questions added!</h2>
+                    <% } %>
+
+                        <form action="/teacherLogin/<%=uploadID%>/uploads" , method="get">
+                            <button>Back</button>
+                        </form>
 
 </body>
+
 </html>
