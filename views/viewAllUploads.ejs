@@ -14,6 +14,7 @@
     <% if(ques.length!=0){ %>
         <h2>The Questions Submitted are:</h2>
         <% for (let i=0; i < ques.length; i++) { %>
+            marks: <%= ques[i].marksOfEachQues %>
             <table>
                 <tr>
                     <th>Question</th>
@@ -39,12 +40,17 @@
                         </td>
                     </tr>
                     <% } %>
-            </table> <br><br>
+            </table> <br>
+            Total marks: <%= ques[i].totalMarks %> <br><br>
+            correct answers: 
+            <% for(let k=0; k<(ques[i].correctAns).length; k++) { %>
+                <p><%= ques[i].correctAns[k] %></p>
+            <% } %>
             <% } %>
                 <% } else{ %>
                     <h2>No questions added!</h2>
                     <% } %>
-
+    <br><br>
                         <form action="/teacherLogin/<%=uploadID%>/uploads" , method="get">
                             <button>Back</button>
                         </form>

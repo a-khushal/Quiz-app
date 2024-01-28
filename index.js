@@ -25,7 +25,8 @@ const studentSchema = mongoose.Schema({
     password: String,
     subject: [{
         type: Object,
-    }]
+    }],
+    branch: String,
 });
 
 const teacherSchema = mongoose.Schema({
@@ -43,6 +44,8 @@ const uplodaSchema = mongoose.Schema({
     teacherID: String,
     subjCode: String,
     correctAns: [String],
+    marksOfEachQues: Number,
+    totalMarks: Number,
 });
 
 const btnStatusSchema = mongoose.Schema({
@@ -60,7 +63,7 @@ const teacherLoginDB = mongoose.model("teacherLoginDB", teacherSchema);
 const uploadDB = mongoose.model("uploadDB", uplodaSchema);
 const btnStatusDB = mongoose.model('btnStatusDB', btnStatusSchema);
 const timeIntervalDB = mongoose.model("timeIntervalDB", timeSchema)
-module.exports = {studentLoginDB, teacherLoginDB, btnStatusDB, uploadDB};
+module.exports = {studentLoginDB, teacherLoginDB, btnStatusDB, uploadDB, timeIntervalDB};
 
 app.get("/", (req, res) => {
     res.render("index.ejs");
@@ -233,8 +236,7 @@ app.get("/teacherLogin/:id", async(req, res)=>{
         let getTeacher = await teacherLoginDB.findById(id);
         const subject = getTeacher.subject;
         const username = getTeacher.username;
-        subStudArr = await studentLoginDB.find({'subject.code': subject.code});
-        res.render("showTeacher.ejs", {username, subject, id, subStudArr})
+        res.render("showTeacher.ejs", {username, subject, id})
     } catch (err) {
         console.error("Error:", err);
         res.status(500).send("Internal Server Error");
@@ -242,15 +244,45 @@ app.get("/teacherLogin/:id", async(req, res)=>{
 });
 
 app.get('/teacherLogin/:id/cy', async(req,res)=>{
-    res.send("hi")
+    try{
+        const {id} = req.params;
+        let subStudArr = [];
+        let getTeacher = await teacherLoginDB.findById(id);
+        const subject = getTeacher.subject
+        subStudArr = await studentLoginDB.find({'subject.code': subject.code, 'branch': 'cy'});
+        res.render("branches/cy.ejs", {subStudArr})
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Internal Server Error");
+    }
 })
 
 app.get('/teacherLogin/:id/cd', async(req,res)=>{
-    res.send("hi")
+    try{
+        const {id} = req.params;
+        let subStudArr = [];
+        let getTeacher = await teacherLoginDB.findById(id);
+        const subject = getTeacher.subject
+        subStudArr = await studentLoginDB.find({'subject.code': subject.code, 'branch': 'cd'});
+        res.render("branches/cd.ejs", {subStudArr})
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Internal Server Error");
+    }
 })
 
 app.get('/teacherLogin/:id/cs', async(req,res)=>{
-    res.send("hi")
+    try{
+        const {id} = req.params;
+        let subStudArr = [];
+        let getTeacher = await teacherLoginDB.findById(id);
+        const subject = getTeacher.subject
+        subStudArr = await studentLoginDB.find({'subject.code': subject.code, 'branch': 'cs'});
+        res.render("branches/cs.ejs", {subStudArr})
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Internal Server Error");
+    }
 })
 
 app.get("/teacherLogin/:id/uploads", async(req, res)=>{
@@ -288,6 +320,8 @@ app.post("/teacherLogin/:id/uploads/done/:numberOfQues", async(req, res)=>{
         teacherID: req.params.id,
         subjCode: subjTeacher.subject.code,
         correctAns: correctAns,
+        marksOfEachQues: req.body.marksOfEachQues,
+        totalMarks: req.body.totalMarks,
     });
     res.redirect(`/teacherLogin/${req.params.id}/uploads`);
 })
@@ -296,6 +330,7 @@ app.get("/teacherLogin/:id/uploads/viewAllUploads", async(req, res)=>{
     const uploadID = req.params.id;
     const ques = await uploadDB.find({teacherID: uploadID});
     // console.log(ques[0].options)
+    // console.log(uploadID);
     res.render("viewAllUploads.ejs", {ques, uploadID});
 })
 
@@ -318,19 +353,36 @@ app.post("/teacherLogin/:id/uploads/:subjCode/timeInput", async(req, res)=>{
     res.redirect(`/teacherLogin/${id}/uploads`)
 })
 
-app.get("/studentLogin/:id/MAT231CT", async(req, res)=>{
-    const quizQues = await uploadDB.find({subjCode: 'MAT231CT'});
-    const timeCollection = await timeIntervalDB.find({subjCode: 'MAT231CT'})
-    const timeInterval = timeCollection[0].timeInMins;
-    module.exports = quizQues;
+app.get("/studentLogin/:id/MAT231CT", async (req, res) => {
     const stateVar = await btnStatusDB.find();
-    if(stateVar.length == 0){
-        res.send("no quizes currently");
-    }
-    else{
-        res.render("subjects_views/MAT231CT.ejs", {quizQues, timeInterval});
-    }
+    const length = stateVar.length;
+    const id = req.params.id;
+    res.render("subjects_views/MAT231CT.ejs", {length, id});   
 });
+
+app.get("/studentLogin/:id/MAT231CT/quiz", async(req, res)=>{
+    let quizQues = await uploadDB.find({ subjCode: 'MAT231CT' });
+    let timeCollection = await timeIntervalDB.find({ subjCode: 'MAT231CT' });
+    const timeID = timeCollection[0]._id;
+    let timeInterval = 0;
+
+    if (timeCollection.length == 0) {
+      timeInterval = 0;
+    } else {
+      timeInterval = timeCollection[0].timeInMins;
+    }
+    res.render("quiz/MAT_quiz.ejs", { quizQues, timeInterval});
+    function delay(ms){
+        setTimeout(async () => {
+            const ans = await timeIntervalDB.updateOne(
+                { subjCode: 'MAT231CT' },
+                { timeInMins: 0 }
+            ); 
+            console.log(ans);
+        }, ms);
+    }
+    delay(timeInterval*60000); 
+})
 
 app.get("/studentLogin/:id/BT232AT", async(req, res)=>{
     let sub = "maths";
