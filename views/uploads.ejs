@@ -3,21 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            margin: 0; 
-        }   
-    </style>
+    <title>Create a Quiz</title>
+    <link rel="stylesheet" href="/css/uploads.css">
+      
+    
 </head>
 <body>
-    upload questions
-    <br><br><br>
-
+    <h2>Upload questions</h2>
+    
     <form id="quesForm" method="post">
         <label for="question">Question</label>
         <div>
@@ -28,7 +21,7 @@
         <div id="optionsDiv">
             <label for="opt1">Option 1</label>
             <input type="text" name="opt1">
-            <label for="correct1">correct ans?</label>
+            <label for="correct1">Select the checkbox below if this option is the correct answer</label>
             <input name="correct1" type="checkbox">
             <br><br>
         </div>
@@ -61,14 +54,14 @@
                 <%await btnStatusDB.deleteMany({})%>
             <%}%>
             <%deleteFunc()%>
-            <button>make quiz live</button>
+            <button>Make quiz live</button>
         </form>
     <%} else {%>
-        <button disabled>make quiz live</button>
+        <button disabled>Make quiz live <br> (Please Enter Questions to make quiz live)</button>
     <% } %>    
     <br><br>
     <form action="/teacherLogin/<%=id%>" method="get">
-        <button>back</button>
+        <button>Back</button>
     </form>    
     <script>
         let optionNumber = 1;

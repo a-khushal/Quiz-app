@@ -19,6 +19,7 @@ table {
     width: 70%;
     border-collapse: collapse;
     margin: 20px auto;
+    font-size: medium;
 }
 
 table,
@@ -31,7 +32,7 @@ td {
 }
 
 th {
-    background-color: #c300ff;
+    background-color: #ae7cff/*#c300ff*/;
     font-weight: bolder;
 
 }
@@ -39,6 +40,7 @@ th {
 td {
     color: #000000;
     font-size: medium;
+    
 }
 
 td.empty {
