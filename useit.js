@@ -91,6 +91,42 @@
 // synchronousDelay();
 
 
-setTimeout(() => {
-  console.log("Hi")
-}, 5000);
+// setTimeout(() => {
+//   console.log("Hi")
+// }, 5000);
+
+
+const rawData = {
+  'quesId 65ad5cec68ffd3b697223a46': '65ad5cec68ffd3b697223a46',
+  'option 65ad5cec68ffd3b697223a46': ['on', 'on'],
+  'quesId 65b3a29a636b814accf5d200': '65b3a29a636b814accf5d200',
+  'option 65b3a29a636b814accf5d200': ['on', 'on']
+};
+
+// Initialize an object to store the formatted data
+const formattedData = {};
+
+// Iterate over the keys in the raw data
+for (const key in rawData) {
+  // Extract the question ID from the key
+  // const questionId = key.replace(/^quesId/, '');
+
+  // // Determine whether the key represents a question ID or an option
+  // if (key.startsWith('quesId')) {
+  //   // If it's a question ID, create a new entry in the formatted data object
+  //   // formattedData[questionId] = { id: rawData[key], options: [] };}
+  if (key.startsWith('option')) {
+    // If it's an option, make sure the corresponding question's object exists
+    console.log(key.split(' ')[1])
+    id = key.split(' ')[1];
+    formattedData[id] = rawData[key]
+    // if (!formattedData[questionId]) {
+    //   formattedData[questionId] = { id: (questionId.split(' '))[1], options: [] };
+    // }
+    // // Add the option to the corresponding question's options array
+    // formattedData[questionId].options.push(rawData[key]);
+  }
+}
+
+console.log(formattedData);
+

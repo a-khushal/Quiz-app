@@ -39,13 +39,14 @@ const teacherSchema = mongoose.Schema({
 });
 
 const uplodaSchema = mongoose.Schema({
+    heading: String,
     question: String,
     options: [String],
     teacherID: String,
     subjCode: String,
     correctAns: [String],
     marksOfEachQues: Number,
-    totalMarks: Number,
+    quizName: String,
 });
 
 const btnStatusSchema = mongoose.Schema({
@@ -58,12 +59,31 @@ const timeSchema = mongoose.Schema({
     subjCode: String,
 })
 
+const responsesSchema = mongoose.Schema({
+    questionId: String,
+    subjCode: String,
+    studentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'studentLoginDB',
+    },
+    markedOptions: [String],
+    marksOfCorrect: Number,
+    quizName: String,
+})
+
+const quizNameSchema = mongoose.Schema({
+    teacherID: String,
+    quizName: String,
+})
+
 const studentLoginDB = mongoose.model("studentLoginDB", studentSchema);
 const teacherLoginDB = mongoose.model("teacherLoginDB", teacherSchema);
 const uploadDB = mongoose.model("uploadDB", uplodaSchema);
 const btnStatusDB = mongoose.model('btnStatusDB', btnStatusSchema);
-const timeIntervalDB = mongoose.model("timeIntervalDB", timeSchema)
-module.exports = {studentLoginDB, teacherLoginDB, btnStatusDB, uploadDB, timeIntervalDB};
+const timeIntervalDB = mongoose.model("timeIntervalDB", timeSchema);
+const responseDB = mongoose.model("responseDB", responsesSchema);
+const quizNameDB = mongoose.model("quizNameDB", quizNameSchema);
+module.exports = {studentLoginDB, teacherLoginDB, btnStatusDB, uploadDB, timeIntervalDB, responseDB, quizNameDB};
 
 app.get("/", (req, res) => {
     res.render("index.ejs");
@@ -285,7 +305,21 @@ app.get('/teacherLogin/:id/cs', async(req,res)=>{
     }
 })
 
-app.get("/teacherLogin/:id/uploads", async(req, res)=>{
+app.get("/teacherLogin/:id/quizName", async(req, res)=>{
+    const id = req.params.id;
+    res.render("quizName.ejs", {id})
+})
+
+app.post("/teacherLogin/:id/quizName", async(req, res)=>{
+    const id = req.params.id;
+    await quizNameDB.deleteMany({teacherID: req.params.id});
+    await quizNameDB.create({quizName: req.body.quizName, teacherID: req.params.id});
+    res.render("set.ejs", {id});
+})
+
+app.post("/teacherLogin/:id/uploads", async(req, res)=>{
+    const quizName = await quizName.find({teacherID: req.params.id});
+    console.log(req.body.hiddenInput)
     const id = req.params.id;
     const subjTeacher = await teacherLoginDB.findById(id)
     const subjCode = subjTeacher.subject.code;
@@ -304,10 +338,12 @@ app.get("/teacherLogin/:id/uploads", async(req, res)=>{
     res.render("uploads.ejs", {id, subjCode, btnStatusDB, allQuesLen, timeInput});
 })
 
-app.post("/teacherLogin/:id/uploads/done/:numberOfQues", async(req, res)=>{
+app.post("/teacherLogin/:id/uploads/done/:numberofOptions", async(req, res)=>{
+    const val = await quizNameDB.find({teacherID: req.params.id});
+    const quizName = val[0].quizName
     let correctAns = [];
     let options = [];
-    for(let i=1; i<=(parseInt(req.params.numberOfQues)); i++){
+    for(let i=1; i<=(parseInt(req.params.numberofOptions)); i++){
         options.push(req.body[`opt${i}`]); 
         if(req.body[`correct${i}`]){
             correctAns.push(req.body[`opt${i}`]);
@@ -315,13 +351,13 @@ app.post("/teacherLogin/:id/uploads/done/:numberOfQues", async(req, res)=>{
     }
     const subjTeacher = await teacherLoginDB.findById(req.params.id);
     await uploadDB.create({
+        quizName: req.body.quizName,
         question: req.body.question,
         options: options,
         teacherID: req.params.id,
         subjCode: subjTeacher.subject.code,
         correctAns: correctAns,
         marksOfEachQues: req.body.marksOfEachQues,
-        totalMarks: req.body.totalMarks,
     });
     res.redirect(`/teacherLogin/${req.params.id}/uploads`);
 })
@@ -361,27 +397,88 @@ app.get("/studentLogin/:id/MAT231CT", async (req, res) => {
 });
 
 app.get("/studentLogin/:id/MAT231CT/quiz", async(req, res)=>{
+    const id = req.params.id;
     let quizQues = await uploadDB.find({ subjCode: 'MAT231CT' });
     let timeCollection = await timeIntervalDB.find({ subjCode: 'MAT231CT' });
     const timeID = timeCollection[0]._id;
     let timeInterval = 0;
-
     if (timeCollection.length == 0) {
       timeInterval = 0;
     } else {
       timeInterval = timeCollection[0].timeInMins;
     }
-    res.render("quiz/MAT_quiz.ejs", { quizQues, timeInterval});
+    res.render("quiz/MAT_quiz.ejs", { quizQues, timeInterval, id});
     function delay(ms){
         setTimeout(async () => {
             const ans = await timeIntervalDB.updateOne(
                 { subjCode: 'MAT231CT' },
                 { timeInMins: 0 }
             ); 
-            console.log(ans);
+            // console.log(ans);
         }, ms);
     }
     delay(timeInterval*60000); 
+})
+
+app.post("/studentLogin/:id/MAT231CT/quiz/submitted", async(req, res)=>{
+
+    const quizName = await uploadDB.find({subjCode: 'MAT231CT'});
+
+    const val = await responseDB.find({studentId: req.params.id, subjCode:'MAT231CT'});
+    if(val.length){
+        await responseDB.deleteMany({studentId: req.params.id, subjCode:'MAT231CT'})
+    }
+
+    await timeIntervalDB.updateOne(
+        { subjCode: 'MAT231CT' },
+        { timeInMins: 0 }
+    )
+
+    const formattedData = {};
+    for(const key in req.body){
+        if(key.startsWith('option')){
+            id = key.split(' ')[1];
+            formattedData[id] = (req.body)[key];
+        }
+    }
+
+    // console.log(formattedData)
+    for(const key in formattedData){
+        formattedData[key] = Array.isArray(formattedData[key]) ? formattedData[key] : [formattedData[key]];    
+        const markedOptions = formattedData[key];
+        const correctAns = (await uploadDB.findById(key)).correctAns;
+        const marksOfEachQues = (await uploadDB.findById(key)).marksOfEachQues;
+        let marksEarned = 0;
+        function arraysEqual(arr1, arr2) {
+            if (arr1.length !== arr2.length) {
+                return false;
+            }
+            
+            for (let i = 0; i < arr1.length; i++) {
+                if (arr1[i] !== arr2[i]) {
+                return false;
+                }
+            }
+            return true;
+        }
+        console.log(correctAns, markedOptions)
+        const ans = arraysEqual(correctAns, markedOptions);
+        if(ans === true){
+            marksEarned = marksOfEachQues;
+        }
+        else{
+            marksEarned = 0;
+        }
+        // console.log(marksEarned)
+        await responseDB.create({
+            questionId: key,
+            studentId: req.params.id,
+            subjCode: 'MAT231CT',
+            markedOptions: formattedData[key],
+            marksOfCorrect: marksEarned,
+        })
+    }
+    res.redirect(`/studentLogin/${req.params.id}/MAT231CT`)
 })
 
 app.get("/studentLogin/:id/BT232AT", async(req, res)=>{
