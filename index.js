@@ -5,8 +5,9 @@ const mongoose = require("mongoose");
 const zod = require("zod");
 const jwt = require('jsonwebtoken');
 const exp = require("constants");
+const bodyParser =  require('body-parser')
 
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.set(express.static(path.join(__dirname, "/views")));
 app.set('view engine', 'ejs');
@@ -314,12 +315,16 @@ app.post("/teacherLogin/:id/quizName", async(req, res)=>{
     const id = req.params.id;
     await quizNameDB.deleteMany({teacherID: req.params.id});
     await quizNameDB.create({quizName: req.body.quizName, teacherID: req.params.id});
+    // console.log(req.body.quizName)
     res.render("set.ejs", {id});
 })
 
 app.post("/teacherLogin/:id/uploads", async(req, res)=>{
-    const quizName = await quizName.find({teacherID: req.params.id});
-    console.log(req.body.hiddenInput)
+    const val = await quizNameDB.find({teacherID: req.params.id})
+    const quizName = val[0].quizName;
+    // console.log(quizName);
+    const heading = req.body.hiddenInput;
+    // console.log(req.body.hiddenInput)
     const id = req.params.id;
     const subjTeacher = await teacherLoginDB.findById(id)
     const subjCode = subjTeacher.subject.code;
@@ -335,12 +340,12 @@ app.post("/teacherLogin/:id/uploads", async(req, res)=>{
         timeInput = detailOfTeacherInputTime[0].timeInMins;
         // console.log(timeInput);
     }
-    res.render("uploads.ejs", {id, subjCode, btnStatusDB, allQuesLen, timeInput});
+    res.render("uploads.ejs", {id, subjCode, btnStatusDB, allQuesLen, timeInput, quizName, heading});
 })
 
 app.post("/teacherLogin/:id/uploads/done/:numberofOptions", async(req, res)=>{
-    const val = await quizNameDB.find({teacherID: req.params.id});
-    const quizName = val[0].quizName
+    // const val = await quizNameDB.find({teacherID: req.params.id});
+    // const quizName = val[0].quizName
     let correctAns = [];
     let options = [];
     for(let i=1; i<=(parseInt(req.params.numberofOptions)); i++){
@@ -349,9 +354,11 @@ app.post("/teacherLogin/:id/uploads/done/:numberofOptions", async(req, res)=>{
             correctAns.push(req.body[`opt${i}`]);
         }
     }
+    console.log(req.body.quizName, req.body.heading);
     const subjTeacher = await teacherLoginDB.findById(req.params.id);
     await uploadDB.create({
         quizName: req.body.quizName,
+        heading: req.body.heading,
         question: req.body.question,
         options: options,
         teacherID: req.params.id,
@@ -359,7 +366,8 @@ app.post("/teacherLogin/:id/uploads/done/:numberofOptions", async(req, res)=>{
         correctAns: correctAns,
         marksOfEachQues: req.body.marksOfEachQues,
     });
-    res.redirect(`/teacherLogin/${req.params.id}/uploads`);
+    // res.redirect(`/teacherLogin/${req.params.id}/uploads`);
+    res.send("hi")
 })
 
 app.get("/teacherLogin/:id/uploads/viewAllUploads", async(req, res)=>{
@@ -506,6 +514,6 @@ app.get("/studentLogin/:id/ME232AT", async(req, res)=>{
     res.render("subjects_views/ME232AT.ejs");
 });
 
-app.listen(8080, () => {
-    console.log("listening to port 8080");
+app.listen(9090, () => {
+    console.log("listening to port 9090");
 });

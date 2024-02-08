@@ -35,6 +35,8 @@
         <button type="button" onclick="addAnotherOption()">Add another option</button><br><br>
         <label for="totalMarks">Total Marks</label>
         <input type="number" name="totalMarks">
+        <input type="hidden" name="quizName" value="<%= quizName %>" id="quizName">
+        <input type="hidden" name="heading" value="<%= heading %>" id="heading">        
         <br><br>
         <input type="submit" value="Submit">
     </form>
@@ -101,11 +103,12 @@
             optionsDiv.appendChild(document.createElement("br"));
             optionsDiv.appendChild(document.createElement("br")); 
             const quesForm = document.getElementById('quesForm');
-            quesForm.setAttribute('action', `/teacherLogin/<%=id%>/uploads/done/${optionNumber}`)
+            quesForm.setAttribute('action', `/teacherLogin/<%=id%>/uploads/done/${optionNumber}`);
+
             return;
         }
         const quesForm = document.getElementById('quesForm');
-        quesForm.setAttribute('action', `/teacherLogin/<%=id%>/uploads/done/${optionNumber}`)
+        quesForm.setAttribute('action', `/teacherLogin/<%=id%>/uploads/done/${optionNumber}`);
     </script>
 </body>
 </html>

@@ -1,60 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
     <link rel="stylesheet" href="/css/allUploads.css">
-
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-
 <body>
-    <% if(ques.length!=0){ %>
-        <h2>The Questions Submitted are:</h2>
-        <% for (let i=0; i < ques.length; i++) { %>
-            marks: <%= ques[i].marksOfEachQues %>
-            <table>
+<% if(ques.length != 0) { %>
+    <h2>The Questions Submitted are:</h2>
+    <% for (let i = 0; i < ques.length; i++) { %>
+        marks: <%= ques[i].marksOfEachQues %>
+        <table>
+            <tr>
+                <th>Question</th>
+                <th>Options</th>
+            </tr>
+            <% for(let j = 0; j < ques[i].options.length; j++) { %>
                 <tr>
-                    <th>Question</th>
-                    <th>Options</th>
+                    <td class="empty">
+                        <% if(j === (ques[i].options.length - 1)) { %>
+                            <form action="/teacherLogin/<%=uploadID%>/uploads/viewAllUploads/delete/<%=ques[i]._id%>", method="post">
+                                <button>Delete</button>
+                            </form>
+                        <% } %>
+                            <% if(j === 0) { %>
+                                <div class="mjx-math">
+                                    $$ <%= ques[i].question %> $$
+                                </div>
+                            <% } %>
+                    </td>
+                    <td>
+                        <%= ques[i].options[j] %>
+                    </td>
                 </tr>
-                <% for(let j=0; j < (ques[i].options).length; j++) { %>
-                    <tr>
-                        <td class="empty">
-                            <% if(j==(((ques[i].options).length)-1)) { %>
-                                <form
-                                    action="/teacherLogin/<%=uploadID%>/uploads/viewAllUploads/delete/<%=ques[i]._id%>"
-                                    , method="post">
-                                    <button>Delete</button>
-                                </form>
-                                <% } %>
-
-                                    <% if(j==0) { %>
-                                        <%= ques[i].question %>
-                                            <% } %>
-                        </td>
-                        <td>
-                            <%= ques[i].options[j] %>
-                        </td>
-                    </tr>
-                    <% } %>
-            </table> <br>
-            Total marks: <%= ques[i].totalMarks %> <br><br>
-            correct answers: 
-            <% for(let k=0; k<(ques[i].correctAns).length; k++) { %>
-                <p><%= ques[i].correctAns[k] %></p>
             <% } %>
-            <% } %>
-                <% } else{ %>
-                    <h2>No questions added!</h2>
-                    <% } %>
-    <br><br>
-                        <form action="/teacherLogin/<%=uploadID%>/uploads" , method="get">
-                            <button>Back</button>
-                        </form>
-
+        </table>
+        <br>
+        Total marks: <%= ques[i].totalMarks %> <br><br>
+        correct answers: 
+        <% for(let k = 0; k < ques[i].correctAns.length; k++) { %>
+            <p><%= ques[i].correctAns[k] %></p>
+        <% } %>
+    <% } %>
+<% } else { %>
+    <h2>No questions added!</h2>
+<% } %>
+<br><br>
+<form action="/teacherLogin/<%=uploadID%>/uploads", method="post">
+    <button>Back</button>
+</form>
 </body>
-
 </html>
