@@ -8,37 +8,37 @@
 <body>
     <form method="post" action="/teacherLogin/<%= id %>/uploads">
         <label for="heading1">Question Topic 1</label>
-        <input type="text" name="heading1" required oninput="updateHiddenInput(this.value)">
-        <input type="hidden" name="hiddenInput" id="hiddenInput" value="">
+        <input type="text" name="heading1" required oninput="updateHiddenInput('hiddenInput1' , this.value)">
+        <input type="hidden" name="hiddenInput" id="hiddenInput1" value="">
         <button>Upload questions on this topic</button>
     </form><br>
     <form method="post" action="/teacherLogin/<%= id %>/uploads">
         <label for="heading2">Question Topic 2</label>
-        <input type="text" name="heading2" required oninput="updateHiddenInput(this.value)">
-        <input type="hidden" name="hiddenInput" id="hiddenInput" value="">
+        <input type="text" name="heading2" required oninput="updateHiddenInput('hiddenInput2', this.value)">
+        <input type="hidden" name="hiddenInput" id="hiddenInput2" value="">
         <button >Upload questions on this topic</button>
     </form><br>
     <form method="post" action="/teacherLogin/<%= id %>/uploads">
         <label for="heading3">Question Topic 3</label>
-        <input type="text" name="heading3" required oninput="updateHiddenInput(this.value)">
-        <input type="hidden" name="hiddenInput" id="hiddenInput" value="">
+        <input type="text" name="heading3" required oninput="updateHiddenInput('hiddenInput3', this.value)">
+        <input type="hidden" name="hiddenInput" id="hiddenInput3" value="">
         <button >Upload questions on this topic</button>
     </form><br>
     <form method="post" action="/teacherLogin/<%= id %>/uploads">
         <label for="heading4">Question Topic 4</label>
-        <input type="text" name="heading4" required oninput="updateHiddenInput(this.value)">
-        <input type="hidden" name="hiddenInput" id="hiddenInput" value="">
+        <input type="text" name="heading4" required oninput="updateHiddenInput('hiddenInput4', this.value)">
+        <input type="hidden" name="hiddenInput" id="hiddenInput4" value="">
         <button >Upload questions on this topic</button>
     </form><br>
     <form method="post" action="/teacherLogin/<%= id %>/uploads">
         <label for="heading5">Question Topic 5</label>
-        <input type="text" name="heading5" required oninput="updateHiddenInput(this.value)">
-        <input type="hidden" name="hiddenInput" id="hiddenInput" value="">
+        <input type="text" name="heading5" required oninput="updateHiddenInput('hiddenInput5', this.value)">
+        <input type="hidden" name="hiddenInput" id="hiddenInput5" value="">
         <button >Upload questions on this topic</button>
     </form><br>
     <script>
-        function updateHiddenInput(value) {
-        document.getElementById('hiddenInput').value = value;
+    function updateHiddenInput(hiddenInputId, value) {
+        document.getElementById(hiddenInputId).value = value;
     }
     </script>
 </body>
