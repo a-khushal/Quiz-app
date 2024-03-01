@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form class="set">
+        <div id="setdiv">
+         <input type="text" id="set1">
+        </div>
+        
+        <button>Submit</button>
+    </form>
+
+
+
+    <script>
+        let optionNumber = 1;
+
+        function addAnotherOption() {
+            optionNumber++;
+
+            const setdiv = document.getElementById('setdiv')
+
+   
+
+            const newInput = document.createElement("input");
+            newInput.setAttribute("type", "text");
+            newInput.setAttribute("name", `set${optionNumber}`);
+            setdiv.appendChild(newInput);
+
+
+            setdiv.appendChild(document.createElement("br"));
+            setdiv.appendChild(document.createElement("br")); 
+            const set = document.getElementById('set');
+            set.setAttribute('action', `/teacherLogin/<%=id%>/uploads/done/${optionNumber}`)
+            return;
+        }
+        const set = document.getElementById('quesForm');
+        set.setAttribute('action', `/teacherLogin/<%=id%>/uploads/done/${optionNumber}`)
+    </script>
+</body>
+</html>

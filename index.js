@@ -285,6 +285,11 @@ app.get('/teacherLogin/:id/cs', async(req,res)=>{
     }
 })
 
+app.get("/teacherLogin/:id/uploads", async(req,res)=>{
+    
+})
+
+
 app.get("/teacherLogin/:id/uploads", async(req, res)=>{
     const id = req.params.id;
     const subjTeacher = await teacherLoginDB.findById(id)
