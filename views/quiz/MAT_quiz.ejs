@@ -17,18 +17,20 @@
         <center>
             <div id="timer"></div>
         </center>
-        <form action="">
+        <form action="/studentLogin/<%=id%>/MAT231CT/quiz/submitted" method="post">
             <div>
-                <% quizQues.forEach((quiz) => { %>
+            <% const shuffledQuestions = quizQues.sort(() => Math.random() - 0.5); %>
+            <%  shuffledQuestions.forEach((quiz) => { %>
                     <br><br><br>
+                    <input type="hidden" value="<%=quiz._id%>" name="quesId <%=quiz._id%>">
                     <h4><%=quiz.question%></h4>
                     <% (quiz.options).forEach((option) => { %>
-                        <%if((quiz.options).length > 0){%>
-                            <input type="checkbox">
+                        <%if((quiz.options).length > 0){ %>
+                            <input name='option <%=quiz._id%>' type="checkbox" value="<%=option%>">
                         <% } else { %>
-                            <input type="radio">
+                            <input name="option <%=quiz._id%>" type="radio" value="<%=option%>">
                         <% } %>&nbsp;&nbsp;&nbsp;
-                        <label><%=option%></label><br><br>
+                        <label for="option"><%=option%></label><br><br>
                     <%})%>
                 <% }) %>
             </div><br><br><br>
@@ -77,6 +79,8 @@
 
             startTimer(time, display, quizStatusElement);
         };
+        
+
     </script>
 </body>
 </html>
