@@ -8,15 +8,31 @@ const exp = require("constants");
 const bodyParser =  require('body-parser')
 const multer  = require('multer')
 const fs = require('fs');
-const {GridFsStorage} = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream')
 const crypto = require('crypto')
+var mammoth = require("mammoth");
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.set(express.static(path.join(__dirname, "/views")));
 app.set('view engine', 'ejs');
 
+
+mammoth.extractRawText({path: "Document.docx"})
+    .then(function(result){
+        var text = result.value; // The raw text 
+
+        //this prints all the data of docx file
+        console.log(text);
+
+        for (var i = 0; i < text.length; i++) {
+            //this prints all the data char by char in separate lines
+            console.log(text[i]);
+        }
+        var messages = result.messages;
+    })
+    .done();
 
 main()
     .then(() => console.log("connected"))
@@ -26,28 +42,27 @@ async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/quizApp");
 }
 
-const conn = mongoose.createConnection('mongodb://127.0.0.1:27017/quizApp')
+// const conn = mongoose.createConnection('mongodb://127.0.0.1:27017/quizApp')
 
-// const storage = multer.diskStorage({
-//     url: ''
-//     destination: function (req, file, cb) {
-//       const fileSize = parseInt(req.headers["content-length"])  
-//       if(fileSize>500000)
-//         return;  
-//       cb(null, 'uploads/')
-//     },
-//     filename: function (req, file, cb) {
-//         const fileSize = parseInt(req.headers["content-length"])  
-//         if(fileSize>500000)
-//             return;  
-//         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-//         cb(null, req.params.id+'_'+uniqueSuffix+'.docx');
-//     }
-// })
-// const upload = multer({ 
-//     storage: storage,
-//     limits: { fileSize: 500000 }
-// })
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      const fileSize = parseInt(req.headers["content-length"])  
+      if(fileSize>500000)
+        return;  
+      cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        const fileSize = parseInt(req.headers["content-length"])  
+        if(fileSize>500000)
+            return;  
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+        cb(null, req.params.id+'_'+uniqueSuffix+'.docx');
+    }
+})
+const upload = multer({ 
+    storage: storage,
+    limits: { fileSize: 500000 }
+})
 
 
 const studentSchema = mongoose.Schema({
@@ -128,34 +143,34 @@ module.exports = {studentLoginDB, teacherLoginDB, btnStatusDB, uploadDB, timeInt
 //     }
 // })
 
-conn.once('open', ()=>{
-    let gfs = Grid(conn.db, mongoose.mongo);
-    gfs.collection('uploadDB')
-})
+// conn.once('open', ()=>{
+//     let gfs = Grid(conn.db, mongoose.mongo);
+//     gfs.collection('uploadDB')
+// })
 
-const storage = new GridFsStorage({
-    url: 'mongodb://127.0.0.1:27017/quizApp',
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            crypto.randomBytes(16, (err, buf) => {
-                if(err){
-                    return reject(err);
-                }
-                const filename = req.params.id + '_' +  buf.toString('hex') + '.docx';
-                const fileInfo = {
-                    filename: filename,
-                    bucketName: 'uploadDB'
-                } 
-                resolve(fileInfo);
-            })
-        })
-    }
-})
+// const storage = new GridFsStorage({
+//     url: 'mongodb://127.0.0.1:27017/quizApp',
+//     file: (req, file) => {
+//         return new Promise((resolve, reject) => {
+//             crypto.randomBytes(16, (err, buf) => {
+//                 if(err){
+//                     return reject(err);
+//                 }
+//                 const filename = req.params.id + '_' +  buf.toString('hex') + '.docx';
+//                 const fileInfo = {
+//                     filename: filename,
+//                     bucketName: 'uploadDB'
+//                 } 
+//                 resolve(fileInfo);
+//             })
+//         })
+//     }
+// })
 
-const upload = multer({
-    storage,
-    limits: {fileSize: 500000}
-});
+// const upload = multer({
+//     storage,
+//     limits: {fileSize: 500000}
+// });
 
 app.get("/", (req, res) => {
     res.render("index.ejs");
@@ -378,11 +393,6 @@ app.get('/teacherLogin/:id/cs', async(req,res)=>{
         res.status(500).send("Internal Server Error");
     }
 })
-
-app.get("/teacherLogin/:id/uploads", async(req,res)=>{
-    
-})
-
 
 app.get("/teacherLogin/:id/quizName", async(req, res)=>{
     const id = req.params.id;
