@@ -10,3 +10,4 @@
 2. open the cloned repo folder in vs-code. On vs-code terminal type: `npm install`.
 3. To initialize your db, navigate to init folder using `cd init` on the vs code terminal and run loginIndex.js -> `node loginIndex.js`.
 4. then exit the init folder using `cd ..` and run `nodemon index.js` or `node index.js`. On the browser enter the url: `localhost:8080/` 
+
