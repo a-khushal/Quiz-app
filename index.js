@@ -6,11 +6,17 @@ const zod = require("zod");
 const jwt = require('jsonwebtoken');
 const exp = require("constants");
 const bodyParser =  require('body-parser')
+const multer  = require('multer')
+const fs = require('fs');
+const {GridFsStorage} = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream')
+const crypto = require('crypto')
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.set(express.static(path.join(__dirname, "/views")));
 app.set('view engine', 'ejs');
+
 
 main()
     .then(() => console.log("connected"))
@@ -19,6 +25,30 @@ main()
 async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/quizApp");
 }
+
+const conn = mongoose.createConnection('mongodb://127.0.0.1:27017/quizApp')
+
+// const storage = multer.diskStorage({
+//     url: ''
+//     destination: function (req, file, cb) {
+//       const fileSize = parseInt(req.headers["content-length"])  
+//       if(fileSize>500000)
+//         return;  
+//       cb(null, 'uploads/')
+//     },
+//     filename: function (req, file, cb) {
+//         const fileSize = parseInt(req.headers["content-length"])  
+//         if(fileSize>500000)
+//             return;  
+//         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+//         cb(null, req.params.id+'_'+uniqueSuffix+'.docx');
+//     }
+// })
+// const upload = multer({ 
+//     storage: storage,
+//     limits: { fileSize: 500000 }
+// })
+
 
 const studentSchema = mongoose.Schema({
     username: String,
@@ -85,6 +115,47 @@ const timeIntervalDB = mongoose.model("timeIntervalDB", timeSchema);
 const responseDB = mongoose.model("responseDB", responsesSchema);
 const quizNameDB = mongoose.model("quizNameDB", quizNameSchema);
 module.exports = {studentLoginDB, teacherLoginDB, btnStatusDB, uploadDB, timeIntervalDB, responseDB, quizNameDB};
+
+// const storage = new GridFsStorage({
+//     url: 'mongodb://127.0.0.1:27017/quizApp',
+//     // options: { useNewUrlParser: true, useUnifiedTopology: true },
+//     file: (req, file)=>{
+//         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+//         return{
+//             bucketName: 'uploadDB',
+//             filename: req.params.id+'_'+uniqueSuffix+'.docx'
+//         }
+//     }
+// })
+
+conn.once('open', ()=>{
+    let gfs = Grid(conn.db, mongoose.mongo);
+    gfs.collection('uploadDB')
+})
+
+const storage = new GridFsStorage({
+    url: 'mongodb://127.0.0.1:27017/quizApp',
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if(err){
+                    return reject(err);
+                }
+                const filename = req.params.id + '_' +  buf.toString('hex') + '.docx';
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploadDB'
+                } 
+                resolve(fileInfo);
+            })
+        })
+    }
+})
+
+const upload = multer({
+    storage,
+    limits: {fileSize: 500000}
+});
 
 app.get("/", (req, res) => {
     res.render("index.ejs");
@@ -184,54 +255,56 @@ app.post("/management/new/teacher", async(req, res)=>{
 
 app.post("/management/new/student", async(req, res)=>{
     try{
-        let {username, email, subjName1, subjCode1, subjName2, subjCode2, subjName3, subjCode3, subjName4, subjCode4, subjName5, subjCode5, subjName6, subjCode6, subjName7, subjCode7, subjName8, subjCode8, subjName9, subjCode9, subjName10, subjCode10} = req.body;
+        let requestBody = [
+            {
+                name: req.body.subjName1, 
+                code: req.body.subjCode1,
+            },
+            {
+                name: req.body.subjName2, 
+                code: req.body.subjCode2,
+            },
+            {
+                name: req.body.subjName3, 
+                code: req.body.subjCode3,
+            },
+            {
+                name: req.body.subjName4, 
+                code: req.body.subjCode4,
+            },
+            {
+                name: req.body.subjName5, 
+                code: req.body.subjCode5,
+            },
+            {
+                name: req.body.subjName6, 
+                code: req.body.subjCode6,
+            },
+            {
+                name: req.body.subjName7, 
+                code: req.body.subjCode7,
+            },
+            {
+                name: req.body.subjName8, 
+                code: req.body.subjCode8,
+            },
+            {
+                name: req.body.subjName9, 
+                code: req.body.subjCode9,
+            },
+            {
+                name: req.body.subjName10, 
+                code: req.body.subjCode10,
+            },
+        ];
+        const subject = requestBody.filter((subj) => subj.name != '' && subj.code!='');
         let password = 'welcome@123';
         await studentLoginDB.insertMany({
-            username: username, 
-            email: email, 
+            username: req.body.username, 
+            email: req.body.email, 
             password: password, 
-            subject:[
-                {
-                    name: subjName1, 
-                    code: subjCode1,
-                },
-                {
-                    name: subjName2, 
-                    code: subjCode2,
-                },
-                {
-                    name: subjName3, 
-                    code: subjCode3,
-                },
-                {
-                    name: subjName4, 
-                    code: subjCode4,
-                },
-                {
-                    name: subjName5, 
-                    code: subjCode5,
-                },
-                {
-                    name: subjName6, 
-                    code: subjCode6,
-                },
-                {
-                    name: subjName7, 
-                    code: subjCode7,
-                },
-                {
-                    name: subjName8, 
-                    code: subjCode8,
-                },
-                {
-                    name: subjName9, 
-                    code: subjCode9,
-                },
-                {
-                    name: subjName10, 
-                    code: subjCode10,
-                },
-            ]
+            subject: subject,
+            branch: req.body.branch
         });
         res.send("new student added");
         return;
@@ -309,6 +382,36 @@ app.get('/teacherLogin/:id/cs', async(req,res)=>{
 app.get("/teacherLogin/:id/quizName", async(req, res)=>{
     const id = req.params.id;
     res.render("quizName.ejs", {id})
+})
+
+app.get("/teacherLogin/:id/quizTemplate", async(req, res)=>{
+    const id = req.params.id;
+    res.render('template.ejs', {id});
+})
+
+app.post("/teacherLogin/:id/quizTemplate", async(req, res)=>{
+    const filePath = '/home/khushal/Desktop/Document.docx';
+    if (fs.existsSync(filePath)) {
+        res.sendFile(filePath, { 
+            headers: {
+                'Content-Disposition': 'attachment; filename="template.docx"'
+            }
+        }, (err) => {
+            if (err) {
+                console.error('Error sending file:', err);
+                res.status(500).send('Error sending file');
+            } else {
+                console.log('File sent successfully');
+            }
+        });
+    } else {
+        console.error('Error: File not found');
+        res.status(404).send('File not found');
+    }
+})
+
+app.post("/teacherLogin/:id/uploadFile", upload.single('edittedFile'), async(req, res)=>{
+    res.json({file: req.file})
 })
 
 app.post("/teacherLogin/:id/quizName", async(req, res)=>{
@@ -432,10 +535,10 @@ app.post("/studentLogin/:id/MAT231CT/quiz/submitted", async(req, res)=>{
 
     const quizName = await uploadDB.find({subjCode: 'MAT231CT'});
 
-    const val = await responseDB.find({studentId: req.params.id, subjCode:'MAT231CT'});
-    if(val.length){
-        await responseDB.deleteMany({studentId: req.params.id, subjCode:'MAT231CT'})
-    }
+    // const val = await responseDB.find({studentId: req.params.id, subjCode:'MAT231CT'});
+    // if(val.length){
+    //     await responseDB.deleteMany({studentId: req.params.id, subjCode:'MAT231CT'})
+    // }
 
     await timeIntervalDB.updateOne(
         { subjCode: 'MAT231CT' },
@@ -514,6 +617,6 @@ app.get("/studentLogin/:id/ME232AT", async(req, res)=>{
     res.render("subjects_views/ME232AT.ejs");
 });
 
-app.listen(9090, () => {
-    console.log("listening to port 9090");
+app.listen(8080, () => {
+    console.log("listening to port 8080");
 });
