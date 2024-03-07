@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,10 +14,46 @@
     <form action="/teacherLogin/<%=id%>/uploadFile" method="post" enctype="multipart/form-data" class="form-group">
         <h3>Upload a Questions File:</h3>
         <br><br>
-        <input type="file" name="edittedFile" id="edittedFile" accept=".docx">
+        <input type="file" name="edittedFile" id="edittedFile" accept=".docx" required>
         (Max fileSize: 450kb)
         <button type="submit" class="submit-btn">Submit the file</button>
     </form>
 </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/template.css">
+</head>
+<body>
+    <div class="container">
+    <form action="/teacherLogin/<%= id %>/quizTemplate" method="post" class="form-group">
+        <button class="upload-btn">Download questions template</button>
+    </form><br><br><br>
+    <form action="/teacherLogin/<%=id%>/uploadFile" method="post" enctype="multipart/form-data" class="form-group" id="uploadForm">
+        <h3>Upload a Questions File:</h3>
+        <br><br>
+        <input type="file" name="edittedFile" id="edittedFile" accept=".docx" required>
+        (Max fileSize: 450kb)
+        <button type="submit" class="submit-btn">Submit the file</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        // event.preventDefault(); // Prevent the form from submitting normally
+
+        // Your code to handle form submission here
+        // For example, you can use AJAX to submit the form data to the server
+
+        // After successful submission, display an alert
+        alert('File uploaded successfully!');
+    });
+</script>
 </body>
 </html>

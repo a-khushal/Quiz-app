@@ -178,31 +178,31 @@
 
 
 
-const express = require('express');
-const fs = require('fs');
-const app = express();
+// const express = require('express');
+// const fs = require('fs');
+// const app = express();
 
-app.get('/', (req, res) => {
-    const filePath = '/home/khushal/Desktop/Document.docx';
-    if (fs.existsSync(filePath)) {
-        res.sendFile(filePath, { 
-            headers: {
-                'Content-Disposition': 'attachment; filename="template.docx"'
-            }
-        }, (err) => {
-            if (err) {
-                console.error('Error sending file:', err);
-                res.status(500).send('Error sending file');
-            } else {
-                console.log('File sent successfully');
-            }
-        });
-    } else {
-        console.error('Error: File not found');
-        res.status(404).send('File not found');
-    }
-});
+// app.get('/', (req, res) => {
+//     const filePath = '/home/khushal/Desktop/Document.docx';
+//     if (fs.existsSync(filePath)) {
+//         res.sendFile(filePath, { 
+//             headers: {
+//                 'Content-Disposition': 'attachment; filename="template.docx"'
+//             }
+//         }, (err) => {
+//             if (err) {
+//                 console.error('Error sending file:', err);
+//                 res.status(500).send('Error sending file');
+//             } else {
+//                 console.log('File sent successfully');
+//             }
+//         });
+//     } else {
+//         console.error('Error: File not found');
+//         res.status(404).send('File not found');
+//     }
+// });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
+// app.listen(3000, () => {
+//     console.log('Server is running on port 3000');
+// });

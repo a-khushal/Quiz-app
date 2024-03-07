@@ -10,8 +10,17 @@ const multer  = require('multer')
 const fs = require('fs');
 const Grid = require('gridfs-stream')
 const crypto = require('crypto')
-var mammoth = require("mammoth");
+const mammoth = require("mammoth");
+const uploadFile = require('./cloud_bucket/index');
+// const wordExtractor = require("./wordExtraction/index");
+// uploadFile("sample/template.docx", localFilePath);
+// const {getFinalArr} = require('./wordExtraction/index');
+// console.log(getFinalArr());
 
+
+// keyID: 0050231ddf437600000000002
+// keyName: B2-key
+// applicationKey: K005MIgV6jnUyDlhxi5MuHvrAUmDGVM
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
@@ -19,21 +28,16 @@ app.set(express.static(path.join(__dirname, "/views")));
 app.set('view engine', 'ejs');
 
 
-mammoth.extractRawText({path: "Document.docx"})
-    .then(function(result){
-        var text = result.value; // The raw text 
-
-        //this prints all the data of docx file
-        console.log(text);
-
-        for (var i = 0; i < text.length; i++) {
-            //this prints all the data char by char in separate lines
-            console.log(text[i]);
-        }
-        var messages = result.messages;
-    })
-    .done();
-
+let str =""; let arr='';
+// mammoth.extractRawText({path: "quiz_details.docx"})
+//     .then(function(result){
+//         // console.log(result);
+//         let text = result.value; 
+//         arr = text;
+//         // console.log(text);
+//     })
+//     .done();
+    
 main()
     .then(() => console.log("connected"))
     .catch((err) => console.log(err));
@@ -41,29 +45,6 @@ main()
 async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/quizApp");
 }
-
-// const conn = mongoose.createConnection('mongodb://127.0.0.1:27017/quizApp')
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      const fileSize = parseInt(req.headers["content-length"])  
-      if(fileSize>500000)
-        return;  
-      cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-        const fileSize = parseInt(req.headers["content-length"])  
-        if(fileSize>500000)
-            return;  
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, req.params.id+'_'+uniqueSuffix+'.docx');
-    }
-})
-const upload = multer({ 
-    storage: storage,
-    limits: { fileSize: 500000 }
-})
-
 
 const studentSchema = mongoose.Schema({
     username: String,
@@ -85,14 +66,10 @@ const teacherSchema = mongoose.Schema({
 });
 
 const uplodaSchema = mongoose.Schema({
-    heading: String,
-    question: String,
-    options: [String],
+    quizArray: {
+        type: Array,
+    },
     teacherID: String,
-    subjCode: String,
-    correctAns: [String],
-    marksOfEachQues: Number,
-    quizName: String,
 });
 
 const btnStatusSchema = mongoose.Schema({
@@ -399,13 +376,31 @@ app.get("/teacherLogin/:id/quizName", async(req, res)=>{
     res.render("quizName.ejs", {id})
 })
 
-app.get("/teacherLogin/:id/quizTemplate", async(req, res)=>{
-    const id = req.params.id;
-    res.render('template.ejs', {id});
-})
+// app.get("/teacherLogin/:id/quizTemplate", async(req, res)=>{
+//     const extractedExport = require("./wordExtraction/index");
+//     const val = await extractedExport;
+//     console.log(val);
+//     const id = req.params.id;
+//     res.render('template.ejs', {id});
+// })
+
+
+app.get("/teacherLogin/:id/quizTemplate", async (req, res) => {
+    try {
+        const id = req.params.id;
+        res.render('template.ejs', {id});
+        // process.exit(0);
+        // process.emit('SIGUSR2');
+    } catch (err) {
+        delete require.cache[require.resolve("./wordExtraction/index")];
+        console.log(err);
+        res.status(500).json({ success: false, message: "An error occurred while processing the file" });
+    }
+});
 
 app.post("/teacherLogin/:id/quizTemplate", async(req, res)=>{
-    const filePath = '/home/khushal/Desktop/Document.docx';
+    const filePath = __dirname+'/Document.docx';
+    console.log(__dirname);
     if (fs.existsSync(filePath)) {
         res.sendFile(filePath, { 
             headers: {
@@ -425,8 +420,251 @@ app.post("/teacherLogin/:id/quizTemplate", async(req, res)=>{
     }
 })
 
-app.post("/teacherLogin/:id/uploadFile", upload.single('edittedFile'), async(req, res)=>{
-    res.json({file: req.file})
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const fileSize = parseInt(req.headers["content-length"]);
+        if (fileSize > 500000) {
+            return cb(new Error("File size exceeds limit"));
+        }
+        const directory = __dirname + '/uploads/' + req.params.id + '/';
+        fs.access(directory, fs.constants.F_OK, (err) => {
+            if (err) {
+                fs.mkdir(directory, { recursive: true }, (err) => {
+                    if (err) {
+                        return cb(err);
+                    }
+                    cb(null, directory);
+                });
+            } else {
+                cb(null, directory);
+            }
+        });
+    },
+    filename: function (req, file, cb) {
+        const fileSize = parseInt(req.headers["content-length"])  
+        if(fileSize>500000)
+            return;  
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const currFileName = req.params.id+'_'+uniqueSuffix+'.docx'
+        cb(null, currFileName);
+        req.currFileName = currFileName;
+        // console.log(currFileName);
+        const bucketFilePath = req.params.id+"/"+req.params.id+'_'+uniqueSuffix+'.docx';
+        const localFilePath = __dirname+'/uploads'+"/"+req.params.id+'/'+req.params.id+'_'+uniqueSuffix+'.docx';
+    }
+})
+const upload = multer({ 
+    storage: storage,
+    limits: { fileSize: 500000 }
+})
+
+app.post("/teacherLogin/:id/uploadFile", upload.single('edittedFile'), async(req, res) => {
+    // delete require.cache[require.resolve("./wordExtraction/index")];
+    // const extractedExport = require("./wordExtraction/index");
+    const filename = req.currFileName;
+    // console.log(filename);
+    const id = req.params.id;
+    let finalobj = {}
+    let finalarr = [];
+    try{
+        const opt = mammoth.extractRawText({path: `/home/khushal/Desktop/Maths_EL_SEM-III/Quiz-app/uploads/${id}/${filename}`})
+            .then(async function(result){
+                let text = result.value; 
+                const arr = text.split('\n');
+                let filteredArr = arr.filter(line=> line.trim() !== '')
+                const quizName = filteredArr[0].split(":")[1];
+                const totalmarks = filteredArr[1].split(":")[1];
+                const duration = filteredArr[2].split(":")[1];
+                function splitQuestions(data) {
+                    const questionArrays = [];
+                    let currentIndex = 0;
+                    while (currentIndex < data.length) {
+                    const startIndex = data.findIndex((item, index) => index >= currentIndex && item.match(/^Question \d+ \(MC\)$/));
+                    if (startIndex === -1) break;
+                
+                    const endIndex = data.findIndex((item, index) => index > startIndex && item.match(/^Question \d+ \(MC\)$/));
+                
+                    const questionArray = data.slice(startIndex, endIndex === -1 ? data.length : endIndex);
+                    questionArrays.push(questionArray);
+                    currentIndex = endIndex === -1 ? data.length : endIndex;
+                    }
+                
+                    return questionArrays;
+                }
+                let questions = splitQuestions(filteredArr);
+                finalarr.push(quizName.trim())
+                finalarr.push(totalmarks.trim())
+                finalarr.push(duration.trim());
+                for(let i=0; i<questions.length; i++){
+                    filteredArr = questions[i];
+                    let ques = '';
+                    let indexOfMC;
+                    for(let i=0; i<filteredArr.length; i++){
+                        if(filteredArr[i]=='MC')
+                            indexOfMC = i
+                    }
+                    if(indexOfMC===2)
+                        ques = filteredArr[1]
+                    else {
+                        for(let i=1; i<indexOfMC; i++){
+                            if(i!=indexOfMC-1)
+                                ques += filteredArr[i]+`                    `;
+                            else 
+                                ques += filteredArr[i];
+                        }
+                    } 
+
+                    let optarr = [];
+                    const marks = parseInt(filteredArr[indexOfMC+2]);
+                    let marksarr = [];
+                    let noofooptions = 0;
+                    for (let i = 0; i < filteredArr.length; i++) {
+                        if (filteredArr[i] === 'Number of options?')
+                        noofooptions = parseInt(filteredArr[i + 1]);
+                        if (filteredArr[i] === 'A' && (filteredArr[i + 1] !== '000' && filteredArr[i + 1] !== '001' && filteredArr[i+1]!='B')){
+                            if(filteredArr[i+2]=='000'||filteredArr[i+2]==='001'){
+                                optarr.push(filteredArr[i + 1]);
+                                marksarr.push(filteredArr[i+2]);
+                            }
+                            else {
+                                let st=''; let j=0;
+                                for(let k=i+1; filteredArr[k]!='B'; k++){
+                                    if(filteredArr[k]!='000'&&filteredArr[k]!='001'){
+                                        st+=filteredArr[k]+'                    ';
+                                        j=k;
+                                    }
+                                }
+                                optarr.push(st); 
+                                st='';
+                                marksarr.push(filteredArr[j+1]);
+                            }
+                        }
+                        else if (filteredArr[i] === 'B' && (filteredArr[i + 1] !== '000' && filteredArr[i + 1] !== '001' && filteredArr[i + 1] !== 'C')){
+                            if(filteredArr[i+2]=='000'||filteredArr[i+2]==='001'){
+                                optarr.push(filteredArr[i + 1]);
+                                marksarr.push(filteredArr[i+2]);
+                            }
+                            else {
+                                let st=''; let j=0;
+                                for(let k=i+1; filteredArr[k]!='C'; k++){
+                                    if(filteredArr[k]!='000'&&filteredArr[k]!='001'){
+                                        st+=filteredArr[k]+'                    ';
+                                        j=k;
+                                    }
+                                }
+                                optarr.push(st); 
+                                st='';
+                                marksarr.push(filteredArr[j+1]);
+                            }
+                        }
+                        else if (filteredArr[i] === 'C' && (filteredArr[i + 1] !== '000' && filteredArr[i + 1] !== '001'&& filteredArr[i + 1] !== 'D')){
+                            if(filteredArr[i+2]=='000'||filteredArr[i+2]==='001'){
+                                optarr.push(filteredArr[i + 1]);
+                                marksarr.push(filteredArr[i+2]);
+                            }
+                            else {
+                                let st=''; let j=0;
+                                for(let k=i+1; filteredArr[k]!='D'; k++){
+                                    if(filteredArr[k]!='000'&&filteredArr[k]!='001'){
+                                        st+=filteredArr[k]+'                    ';
+                                        j=k;
+                                    }
+                                }
+                                optarr.push(st); 
+                                st='';
+                                marksarr.push(filteredArr[j+1]);
+                            }
+                        }
+                        else if (filteredArr[i] === 'D' && (filteredArr[i + 1] !== '000' && filteredArr[i + 1] !== '001' && filteredArr[i + 1] !== 'E')){
+                            if(filteredArr[i+2]=='000'||filteredArr[i+2]==='001'){
+                                optarr.push(filteredArr[i + 1]);
+                                marksarr.push(filteredArr[i+2]);
+                            }
+                            else {
+                                let st=''; let j=0;
+                                for(let k=i+1; filteredArr[k]!='E'; k++){
+                                    if(filteredArr[k]!='000'&&filteredArr[k]!='001'){
+                                        st+=filteredArr[k]+'                    ';
+                                        j=k;
+                                    }
+                                }
+                                optarr.push(st);
+                                st='';
+                                marksarr.push(filteredArr[j+1]);
+                            }
+                        }
+                        else if (filteredArr[i] === 'E' && (filteredArr[i + 1] !== '000' && filteredArr[i + 1] !== '001') && i !== (filteredArr.length - 1)){
+                            if(filteredArr[i+2]=='000'||filteredArr[i+2]==='001'){
+                                optarr.push(filteredArr[i + 1]);
+                                marksarr.push(filteredArr[i+2]);
+                            }
+                            else {
+                                let st=''; let j=0;
+                                for(let k=i+1; k<filteredArr.length; k++){
+                                    if(filteredArr[k]!='000'&&filteredArr[k]!='001'){
+                                        st+=filteredArr[k]+'                    ';
+                                        j=k;
+                                    }
+                                }
+                                optarr.push(st);
+                                st='';
+                                marksarr.push(filteredArr[filteredArr.length-1]);
+                            }
+                        }
+                    }
+                    const optionsObj = {}; const marksObj = {}
+                    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+                    // for (let i = 0; i < optarr.length; i++) {
+                    //     optionsObj[alphabet[i]] = optarr[i];
+                    // }
+                    for(let i=0; i<marksarr.length; i++){
+                        marksObj[alphabet[i]] = marksarr[i];
+                    }
+                    finalobj = {question: ques, marks: marks, enteredOptions: optarr, noofooptions: noofooptions, correctOrWrong: marksObj};
+                    finalarr.push(finalobj)
+                    // console.log(finalobj);
+                }
+                // console.log(finalarr);
+                const val = await uploadDB.create({quizArray: finalarr, teacherID: req.params.id});
+            })
+        } catch(err){
+            res.send(err);
+            console.log(err);
+            return;
+        }
+    res.redirect(`/teacherLogin/${req.params.id}/quizTemplate`);
+    // res.send("hi");
+});
+
+
+app.get('/teacherLogin/:id/viewAllQuizzes', async(req, res)=>{
+    const id = req.params.id
+    const allquizzes = await uploadDB.find({teacherID: id});
+    // console.log(allquizzes);
+    if(allquizzes.length==0){
+        res.send("no quizzes uploaded consider uploading")
+        return;
+    }
+    let quizNamesId = []
+    for(let i=0; i<allquizzes.length; i++)
+        quizNamesId.push(allquizzes[i].quizArray[0] + " (" + allquizzes[i]._id + ")");
+    res.render("allQuizzes.ejs", {quizNamesId, id});
+    // res.send("hi");
+});
+
+app.post("/teacherLogin/:id/viewParticular", async(req, res)=>{
+    let clickedBtnVal = req.body.clickedButton;
+    const quizToView = (clickedBtnVal.split('(')[1]).split(')')[0];
+    const quiz = await uploadDB.findOne({_id: quizToView});
+    let quizQues = [];
+    for(let i=3; i<(quiz.quizArray).length; i++){
+        quizQues.push(quiz.quizArray[i]);
+    }
+    // console.log(quizQues);
+    // res.render("viewParticular.ejs", {quizObject});
+    // res.json({quizQues: quizQues});
+    res.render("viewParticular.ejs", {quizQues});
 })
 
 app.post("/teacherLogin/:id/quizName", async(req, res)=>{

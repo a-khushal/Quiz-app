@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>All quizzes</h1><br><br><br>
+    <div>
+        <form action="/teacherLogin/<%=id%>/viewParticular" method="post">
+            <% for(let i=0; i<(quizNamesId.length); i++) { %>
+                <button name="clickedButton" value="<%=quizNamesId[i]%>"><%=quizNamesId[i]%></button><br><br><br>
+            <% } %>
+        </form>
+    </div>
+</body>
+</html>

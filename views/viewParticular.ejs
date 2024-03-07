@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>All questions</h2> 
+        <br><br><br>
+        <% for(let i=0; i<(quizQues.length); i++) { %>
+            <div> <%= i+1 %> <%= quizQues[i].question %></div>
+            <% for(let j=0; j<(quizQues[i].enteredOptions).length; j++) { %>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= (quizQues[i].enteredOptions)[j] %></div>
+            <% } %>
+            <br><br><br>
+        <% } %>
+    </div>
+</body>
+</html>
