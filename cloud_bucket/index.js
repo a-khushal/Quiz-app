@@ -1,3 +1,7 @@
+// keyID: 0050231ddf437600000000002
+// keyName: B2-key
+// applicationKey: K005MIgV6jnUyDlhxi5MuHvrAUmDGVM
+
 const AWS = require("aws-sdk");
 const fs = require('fs');
 

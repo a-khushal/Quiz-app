@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Make quiz Live for?</h2>
+    <form action="/teacherLogin/<%=id%>/madeLive" method="post">
+        <label for="cy">CY</label>
+        <input name="cy" type="checkbox"><br><br>
+        <label for="cs">CS</label>
+        <input name="cs" type="checkbox"><br><br>
+        <label for="cd">CD</label>
+        <input name="cd" type="checkbox"><br><br>
+        <button type="submit" value="<%=quizTomakeLive%>" name="clickedButton">submit</button>
+    </form>
+</body>
+</html>

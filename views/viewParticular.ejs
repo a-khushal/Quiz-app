@@ -7,8 +7,13 @@
 </head>
 <body>
     <div>
-        <h1>All questions</h2> 
-        <br><br><br>
+        <h1><%= quizName %></h1>
+        <div style="display: flex;">
+            <div>duration: <%= duration %></div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div>Total Marks: <%= totalmarks %></div>
+        </div><br><br>
+        <h4>All questions</h4>
+        <br>
         <% for(let i=0; i<(quizQues.length); i++) { %>
             <div> <%= i+1 %> <%= quizQues[i].question %></div>
             <% for(let j=0; j<(quizQues[i].enteredOptions).length; j++) { %>

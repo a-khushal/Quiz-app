@@ -1,0 +1,24 @@
+const express = require("express");
+const router = express.Router();
+const teacherLoginDB = require("../../db/teacherDB");
+const studentLoginDB = require("../../db/studentDB");
+
+
+router
+    .route("/teacherLogin/:id/cd")
+    .get(async(req,res)=>{
+        try{
+            const {id} = req.params;
+            let subStudArr = [];
+            let getTeacher = await teacherLoginDB.findById(id);
+            const subject = getTeacher.subject
+            subStudArr = await studentLoginDB.find({'subject.code': subject.code, 'branch': 'cd'});
+            res.render("../views/branches/cd.ejs", {subStudArr})
+        } catch (err) {
+            console.error("Error:", err);
+            res.status(500).send("Internal Server Error");
+        }
+    })
+
+module.exports = router;
+    

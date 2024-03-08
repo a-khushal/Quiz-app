@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const data = require("./loginData");
-const { studentLoginDB, teacherLoginDB , uploadDB, timeIntervalDB, btnStatusDB} = require("../index.js");
+const { timeIntervalDB, btnStatusDB} = require("../index.js");
+const teacherLoginDB = require("../db/teacherDB.js");
+const studentLoginDB = require("../db/studentDB.js");
+const uploadDB = require("../db/uploadDB.js");
 
 main()
     .then(()=>{

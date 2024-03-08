@@ -8,11 +8,17 @@
 <body>
     <h1>All quizzes</h1><br><br><br>
     <div>
-        <form action="/teacherLogin/<%=id%>/viewParticular" method="post">
-            <% for(let i=0; i<(quizNamesId.length); i++) { %>
-                <button name="clickedButton" value="<%=quizNamesId[i]%>"><%=quizNamesId[i]%></button><br><br><br>
-            <% } %>
-        </form>
+        <% for(let i=0; i<(quizNamesId.length); i++) { %>
+            <div style="display: flex;">
+                <form action="/teacherLogin/<%=id%>/viewParticular" method="post">
+                        <button name="clickedButton" value="<%=quizNamesId[i]%>"><%=quizNamesId[i]%></button>&nbsp;&nbsp;&nbsp;
+                </form>
+                <form action="/teacherLogin/<%=id%>/makeLive" method="post">
+                        <button name="clickedButton" value="<%=quizNamesId[i]%>">make this quiz live</button>
+                        <br><br><br>
+                </form>
+            </div>
+        <% } %>
     </div>
 </body>
 </html>
