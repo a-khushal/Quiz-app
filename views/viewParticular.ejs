@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,4 +23,58 @@
         <% } %>
     </div>
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="/css/viewParticular.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            <%= quizName %>
+        </h1>
+        <div>
+            <span>Duration: <%= duration %></span>
+            <span style="margin-left: 20px;">Total Marks: <%= totalmarks %></span>
+        </div>
+        <br>
+        <h4>All questions</h4>
+        <br>
+        <% for(let i=0; i<(quizQues.length); i++) { %>
+            <table class="question-table">
+                <tr>
+                    <th colspan="2">Question <%= i+1 %>
+                    </th>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <%= quizQues[i].question %>
+                    </td>
+                </tr>
+            </table>
+            <table class="options-table">
+                <tr>
+                    <th>Options</th>
+                </tr>
+                <% for(let j=0; j<(quizQues[i].enteredOptions).length; j++) { %>
+                    <tr>
+                        <td>
+                            <%= (quizQues[i].enteredOptions)[j] %>
+                        </td>
+                    </tr>
+                    <% } %>
+            </table>
+            <br><br>
+            <% } %>
+    </div>
+</body>
+
 </html>

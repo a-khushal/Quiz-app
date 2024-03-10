@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+
+body {
+    font-family: Montserrat, sans-serif;
+    background: linear-gradient(to right, #b77ded, #ea87ef);
+    margin: 0;
+    padding: 0;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #ae7cff;
+    max-width: 600px;
+    margin: 50px auto;
+    margin-top: 50px;
+    padding: 20px;
+    /*background: linear-gradient(to right, #b77ded, #ea87ef);*/
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.question-table,
+.options-table {
+    margin: 0 auto 20px auto;
+    border-collapse: collapse;
+    width: 100%;
+    /* Adjusted width */
+}
+
+.question-table th,
+.options-table th,
+.question-table td,
+.options-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.question-table th,
+.options-table th {
+    background-color: #f733e3;
+}
