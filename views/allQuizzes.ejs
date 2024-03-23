@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -43,38 +43,4 @@
         }
     </script>
 </body>
-</html> -->
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uploaded Quizes</title>
-    <link rel="stylesheet" href="/css/allQuizes.css">
-    
-</head>
-
-<body>
-    <div class="container">
-        <h1>All quizzes</h1>
-
-        <% for(let i=0; i<(quizNamesId.length); i++) { %>
-            <div class="quiz-container" style="display: flex;">
-                <form action="/teacherLogin/<%=id%>/viewParticular" method="post">
-                    <button name="clickedButton" value="<%=quizNamesId[i]%>">
-                        <%=quizNamesId[i]%>
-                    </button>
-                </form>
-                <form action="/teacherLogin/<%=id%>/makeLive" method="post">
-                    <button name="clickedButton" value="<%=quizNamesId[i]%>">Make this quiz live</button>
-
-                </form>
-            </div>
-
-            <% } %>
-    </div>
-</body>
-
 </html>
