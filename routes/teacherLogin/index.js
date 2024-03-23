@@ -10,6 +10,7 @@ const viewAllQuizzesRouter = require("./viewAllQuizzes");
 const viewParticularRouter = require("./viewParticular");
 const makeLiveRouter = require("./makeLive");
 const madeLiveRouter = require("./madeLive");
+const deleteRouter = require("./deleteQuiz");
 
 router.use(showTeacherRouter);
 router.use(cyRouter);
@@ -21,6 +22,7 @@ router.use(viewAllQuizzesRouter);
 router.use(viewParticularRouter);
 router.use(makeLiveRouter);
 router.use(madeLiveRouter);
+router.use(deleteRouter);
 
 module.exports = router;
 

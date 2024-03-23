@@ -8,18 +8,15 @@
 </head>
 <body>
     <center>
-    <h1 style="font-size:300%;">Welcome <%=username%></h1>
-    <a style="font-size: xx-large;">Courses </a>
-    
-    <ol style="--length: 5" role="list">
-        
-    <div style="display:inline-block;">
-        <% for(subject of subjectArr){ %>
-            <div  onclick="window.location.href='/studentLogin/<%=id%>/<%=subject.code%>';"><li style="--i: 1;"><%=subject.code%> &nbsp;&nbsp;&nbsp;&nbsp;<%=subject.name%></li></div><br>
-        <% } %>
-     
-    </div>
-</ol>
-</center>
+        <h1 style="font-size:300%;">Welcome <%=username%></h1>
+        <a style="font-size: xx-large;">Courses </a>
+        <ol style="--length: 5" role="list">
+            <div style="display:inline-block;">
+                <% for(subject of subjectArr){ %>
+                    <div  onclick="window.location.href='/studentLogin/<%=id%>/<%=subject.code%>';" style="cursor: pointer;"><li  style="--i: 1;"><%=subject.code%> &nbsp;&nbsp;&nbsp;&nbsp;<%=subject.name%></li></div><br>
+                <% } %>
+            </div>
+        </ol>   
+    </center>
 </body>
 </html>

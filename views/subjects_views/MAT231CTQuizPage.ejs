@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+</head>
+<body>
+    <h1>All quizzes</h1>
+    <div style="display: flex;">
+        <form id="attemptForm">
+                <label for="attemptBtn"><%=quizName%></label>&nbsp;&nbsp;&nbsp;
+                <button onclick="confirmAttempt()" name="attemptBtn" value="<%=quizId%>">Attempt now</button>
+        </form>
+    </div>
+    <script>
+        function confirmAttempt(){
+            const attemptForm = document.getElementById("attemptForm");
+            if(confirm("Attempt quiz now?")){
+                attemptForm.setAttribute("action", "/studentLogin/<%=id%>/MAT231CT/attemptQuiz");
+                attemptForm.setAttribute("method", "post");
+            } else {
+                event.preventDefault();
+            }
+        }
+    </script>
+</body>
+</html>
