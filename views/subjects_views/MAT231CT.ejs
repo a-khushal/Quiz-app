@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="\css\subject_style.css">
     <title>Quiz</title>
 </head>
 <body>
-    <h1>Mathematics</h1><br><br>
-    <img src="\images\no_quiz_view.png" alt=""></img>
-    <h3>No Quizes or Tests Scheduled Currently!!</h3>
+    <% if(length != 0){ %>
+        <form action="/studentLogin/<%=id%>/MAT231CT/quiz" method="get">
+            <button>start quiz</button>
+        </form>
+    <% } %>
+    Analytics:
 </body>
 </html>

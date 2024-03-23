@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const uploadDB = require("../../db/uploadDB")
 
 router
     .route("/teacherLogin/:id/makeLive")
@@ -8,11 +7,8 @@ router
         try{
             let clickedBtnVal = req.body.clickedButton;
             const quizTomakeLive = (clickedBtnVal.split('(')[1]).split(')')[0];
-            const quiz = await uploadDB.find({_id: quizTomakeLive});
-            const quizName = quiz[0].quizArray[0];
-            const duration = quiz[0].quizArray[2];
             const {id} = req.params;
-            res.render("makeLive.ejs", {id, quizId :quizTomakeLive, quizName, duration});
+            res.render("makeLive.ejs", {id, quizTomakeLive});
         } catch(err){
             res.send("some error");
             console.log(err);

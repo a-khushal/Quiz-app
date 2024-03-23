@@ -6,42 +6,20 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>All quizzes</h1>
-    <form action="/teacherLogin/<%=id%>">
-        <button>Go Back</button>
-    </form>
-    <br><br><br>
+    <h1>All quizzes</h1><br><br><br>
     <div>
         <% for(let i=0; i<(quizNamesId.length); i++) { %>
             <div style="display: flex;">
                 <form action="/teacherLogin/<%=id%>/viewParticular" method="post">
-                        <button name="clickedButton" value="<%=quizNamesId[i].dispName%>"><%=quizNamesId[i].dispName%></button>&nbsp;&nbsp;&nbsp;
+                        <button name="clickedButton" value="<%=quizNamesId[i]%>"><%=quizNamesId[i]%></button>&nbsp;&nbsp;&nbsp;
                 </form>
-                <% if(quizNamesId[i].isMadeLive == true){ %>
-                    <form action="/teacherLogin/<%=id%>/makeLive" method="post">
-                        <button name="clickedButton" value="<%=quizNamesId[i].dispName%>" id="makeLiveBtn" disabled>make this quiz live</button>&nbsp;&nbsp;&nbsp;
-                    </form>
-                <% } else if(quizNamesId[i].isMadeLive == false) { %>
-                    <form action="/teacherLogin/<%=id%>/makeLive" method="post">
-                        <button name="clickedButton" value="<%=quizNamesId[i].dispName%>" id="makeLiveBtn">make this quiz live</button>&nbsp;&nbsp;&nbsp;
-                    </form>
-                <% } %>
-                <form id="deleteForm">
-                    <button onclick="deleteConfirm()" name="deleteButton" value="<%=quizNamesId[i].dispName%>">remove</button>
-                    <br><br><br>
+                <form action="/teacherLogin/<%=id%>/makeLive" method="post">
+                        <button name="clickedButton" value="<%=quizNamesId[i]%>">make this quiz live</button>
+                        <br><br><br>
                 </form>
             </div>
         <% } %>
     </div>
-    <script>
-        function deleteConfirm(){
-            const deleteForm = document.getElementById('deleteForm');
-            if(confirm("Sure you wanna delete it!?")){
-                deleteForm.setAttribute("action", "/teacherLogin/<%=id%>/deleteQuiz");
-                deleteForm.setAttribute('method', "post");
-            }
-        }
-    </script>
 </body>
 </html> -->
 
