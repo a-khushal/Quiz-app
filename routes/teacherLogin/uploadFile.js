@@ -202,8 +202,9 @@ router
                             // for (let i = 0; i < optarr.length; i++) {
                             //     optionsObj[alphabet[i]] = optarr[i];
                             // }
+                            // console.log(optarr);
                             for(let i=0; i<marksarr.length; i++){
-                                marksObj[alphabet[i]] = marksarr[i];
+                                marksObj[optarr[i].toString()] = marksarr[i];
                             }
                             finalobj = {question: ques, marks: marks, enteredOptions: optarr, noofooptions: noofooptions, correctOrWrong: marksObj};
                             finalarr.push(finalobj)

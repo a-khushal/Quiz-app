@@ -201,7 +201,7 @@ const teacherData = [
         subject: {
             name: "Maths",
             code: "MAT231CT",
-        }
+        },
     },
     {
         username: "teacher2",

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const studentLoginDB = require("./studentDB")
 
 const teacherSchema = mongoose.Schema({
     username: String,
@@ -6,7 +7,8 @@ const teacherSchema = mongoose.Schema({
     password: String,
     subject: {
         type: Object,
-    }
+    },
+    studentsId: [String]
 });
 const teacherLoginDB = mongoose.model("teacherLoginDB", teacherSchema);
 module.exports = teacherLoginDB;
