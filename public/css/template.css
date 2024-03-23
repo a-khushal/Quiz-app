@@ -42,7 +42,7 @@ label {
     font-weight: bold;
 }
 
-.upload-btn, .submit-btn {
+.upload-btn, .submit-btn, .back-btn {
     background-color: #007bff;
     color: #fff;
     padding: 10px 20px;
@@ -52,6 +52,6 @@ label {
     margin: 0 10px; /* Add margin to separate buttons */
 }
 
-.upload-btn:hover, .submit-btn:hover {
+.upload-btn:hover, .submit-btn:hover, .back-btn:hover {
     background-color: #0056b3;
 }
