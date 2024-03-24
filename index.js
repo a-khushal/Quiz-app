@@ -169,17 +169,21 @@ app.get("/studentLogin/:id/MAT231CT", async (req, res) => {
         res.render("subjects_views/MAT231CT.ejs")
         return;
     }
-    else {
-        const quizId = liveQuiz.quizId;
-        const quiz = await uploadDB.findOne({_id: quizId});
-        if(!quiz){
-            res.render("subjects_views/MAT231CT.ejs")
-            return;
-        }
-        const quizName = quiz.quizArray[0];
-        const quizNameId = quizName + ' (' + quizId + ')';
-        res.render("subjects_views/MAT231CTQuizPage.ejs", {id, quizName, quizId}); 
-    }  
+    const hasAttempted = await responseDB.findOne({quizId: liveQuiz.quizId, studentId: id});
+    if(hasAttempted){
+        res.render("subjects_views/MAT231CT.ejs")
+        return;
+    }
+    const quizId = liveQuiz.quizId;
+    const quiz = await uploadDB.findOne({_id: quizId});
+    if(!quiz){
+        res.render("subjects_views/MAT231CT.ejs")
+        return;
+    }
+    const quizName = quiz.quizArray[0];
+    const quizNameId = quizName + ' (' + quizId + ')';
+    res.render("subjects_views/MAT231CTQuizPage.ejs", {id, quizName, quizId}); 
+    
 });
 
 app.post("/studentLogin/:id/MAT231CT/attemptQuiz", async(req, res)=>{
@@ -191,7 +195,6 @@ app.post("/studentLogin/:id/MAT231CT/attemptQuiz", async(req, res)=>{
     const totalmarks = quiz.quizArray[1];
     const quizArray = quiz.quizArray;
     const ques1 = quizArray[3].question;
-    // console.log(duration)
     res.render("subjects_views/MAT231CTAttemptPage.ejs", {quizId, id, quizName, duration, totalmarks, quizArray, ques1});
 })
 

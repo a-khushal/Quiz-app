@@ -26,10 +26,14 @@ router
             const quiz = await uploadDB.findOne({_id: quizId});
             const duration = parseInt(quiz.quizArray[2]);
             const durationInSec = duration * 60;
+            // console.log(durationInSec)
             const dateTime = new Date();
-            const currTime = Math.floor(dateTime.getTime()/1000);
-            const finalTime = currTime + durationInSec + 30 * 60;
-            const interval = finalTime - currTime;
+            const currTimeInSec = Math.floor(dateTime.getTime()/1000);
+            // console.log(currTimeInSec, durationInSec);
+            const finalTimeInSec = currTimeInSec + durationInSec + 30 * 60;
+            // console.log(finalTimeInSec)
+            const interval = finalTimeInSec - currTimeInSec;
+            // console.log(interval);
             setTimeout(async() => {
                 await liveDB.deleteOne({quizId: quizId});
             }, interval * 1000);

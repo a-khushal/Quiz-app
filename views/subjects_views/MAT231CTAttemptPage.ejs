@@ -11,29 +11,28 @@
     <center>
         <p id="timer">timer</p>
     </center><br><br><br>
-    <form action="/studentLogin/<%= id %>/MAT231CT/response/<%= quizId %>" method="post" id="quizFrom">
+    <form id="quizForm">
         <% for(let i = 3; i < quizArray.length; i++) { %>
-            <!-- <form action="/studentLogin/<%= id %>/MAT231CT/response" method="post" id="quesForm<%= i %>"> -->
-                <div>
-                    <div><%= i - 2 %>&nbsp;<%= quizArray[i].question %></div><br>
-                    <% let arr = []; %>
-                    <% for (const key in quizArray[i].correctOrWrong) { %>
-                        <% if (quizArray[i].correctOrWrong[key] === '001') { %>
-                            <% arr.push(key); %>
-                        <% } %>
+            <div>
+                <div><%= i - 2 %>&nbsp;<%= quizArray[i].question %></div><br>
+                <% let arr = []; %>
+                <% for (const key in quizArray[i].correctOrWrong) { %>
+                    <% if (quizArray[i].correctOrWrong[key] === '001') { %>
+                        <% arr.push(key); %>
                     <% } %>
-                    <% if (arr.length > 1) { %>
-                        <% for (let j = 0; j < quizArray[i].enteredOptions.length; j++) { %>
-                            &nbsp;&nbsp;&nbsp; <input type="checkbox" name="<%= quizArray[i].question %>" value="<%= quizArray[i].enteredOptions[j] %>">&nbsp;
-                            <label for="option<%= quizArray[i].question %>"><%= quizArray[i].enteredOptions[j] %></label><br><br>
-                        <% } %>
-                    <% } else { %>
-                        <% for (let j = 0; j < quizArray[i].enteredOptions.length; j++) { %>
-                            &nbsp;&nbsp;&nbsp; <input type="radio" name="<%= quizArray[i].question %>" value="<%= quizArray[i].enteredOptions[j] %>">&nbsp;
-                            <label for="option<%= quizArray[i].question %>"><%= quizArray[i].enteredOptions[j] %></label><br><br>
-                        <% } %>
+                <% } %>
+                <% if (arr.length > 1) { %>
+                    <% for (let j = 0; j < quizArray[i].enteredOptions.length; j++) { %>
+                        &nbsp;&nbsp;&nbsp; <input type="checkbox" name="<%= quizArray[i].question %>" value="<%= quizArray[i].enteredOptions[j] %>">&nbsp;
+                        <label for="option<%= quizArray[i].question %>"><%= quizArray[i].enteredOptions[j] %></label><br><br>
                     <% } %>
-                </div> <br><br><br>
+                <% } else { %>
+                    <% for (let j = 0; j < quizArray[i].enteredOptions.length; j++) { %>
+                        &nbsp;&nbsp;&nbsp; <input type="radio" name="<%= quizArray[i].question %>" value="<%= quizArray[i].enteredOptions[j] %>">&nbsp;
+                        <label for="option<%= quizArray[i].question %>"><%= quizArray[i].enteredOptions[j] %></label><br><br>
+                    <% } %>
+                <% } %>
+            </div> <br><br><br>
         <% } %>
         <button type="submit" onclick="confirmSubmit()">submit</button>
     </form>
@@ -42,30 +41,35 @@
         let totalSeconds = minutes * 60;
         const timerElement = document.getElementById("timer");
         const countdownInterval = setInterval(function() {
-                if (totalSeconds <= 0) {
-                    clearInterval(countdownInterval);
-                    timerElement.textContent = "Countdown finished!";
-                } else {
-                    const displayMinutes = Math.floor(totalSeconds / 60);
-                    const displaySeconds = totalSeconds % 60;
-                    const formattedMinutes = displayMinutes < 10 ? "0" + displayMinutes : displayMinutes;
-                    const formattedSeconds = displaySeconds < 10 ? "0" + displaySeconds : displaySeconds;
-                    timerElement.textContent = formattedMinutes + ":" + formattedSeconds;
-                    totalSeconds--;
-                }
+            if (totalSeconds <= 0) {
+            clearInterval(countdownInterval);
+            timerElement.textContent = "Countdown finished!";
+            const quizForm = document.getElementById("quizForm");
+            quizForm.setAttribute("action", "/studentLogin/<%= id %>/MAT231CT/response/<%= quizId %>");
+            quizForm.setAttribute("method", "post");
+            quizForm.submit();
+            alert("quizEnded");
+            } else {
+                const displayMinutes = Math.floor(totalSeconds / 60);
+                const displaySeconds = totalSeconds % 60;
+                const formattedMinutes = displayMinutes < 10 ? "0" + displayMinutes : displayMinutes;
+                const formattedSeconds = displaySeconds < 10 ? "0" + displaySeconds : displaySeconds;
+                timerElement.textContent = formattedMinutes + ":" + formattedSeconds;
+                totalSeconds--;
+            }
             }, 1000);
         }
         const timerVal = "<%= duration %>"; 
-        countdown(parseInt(timerVal));
-        // function confirmSubmit(){
-        //     const quizFrom = document.getElementById("quizForm");
-        //     if(confirm("Save and submit?")){    
-        //         quizFrom.setAttribute("action", "/studentLogin/<%= id %>/MAT231CT/response/<%= quizId %>");
-        //         quizFrom.setAttribute("method", "POST");
-        //     } else {
-        //         event.preventDefault();
-        //     }
-        // }
+        countdown(parseInt(1));
+        function confirmSubmit(){
+            const quizFrom = document.getElementById("quizForm");
+            if(confirm("Save and submit?")){    
+                quizFrom.setAttribute("action", "/studentLogin/<%= id %>/MAT231CT/response/<%= quizId %>");
+                quizFrom.setAttribute("method", "post");
+            } else {
+                event.preventDefault();
+            }
+        }
     </script>
 </body>
 </html>
