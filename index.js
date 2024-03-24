@@ -220,6 +220,11 @@ app.post("/studentLogin/:id/MAT231CT/response/:quizId", async(req, res)=>{
     // console.log(quiz)
     // console.log(teacherId)
     // console.log(quiz[0].quizArray);
+    const isLive = await liveDB.findOne({_id: quizId});
+    if(!isLive){
+        res.render("subjects_views/MAT231CT.ejs")
+        return;
+    }
     const quizArray = quiz.quizArray;
     // console.log(Object.keys(req.body));
     for(let i=3; i<quizArray.length; i++){
