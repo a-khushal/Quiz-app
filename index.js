@@ -162,22 +162,22 @@ app.get("/studentLogin/:id/MAT231CT", async (req, res) => {
     const teacherId = teacher._id.toString();
     const liveQuiz = await liveDB.findOne({teacherId});
     if(!liveQuiz){
-        res.render("subjects_views/MAT231CT.ejs")
+        res.render("subjects_views/MAT231CT.ejs", {id})
         return;
     } 
     else if(!(liveQuiz.whom.includes(studentBranch))){
-        res.render("subjects_views/MAT231CT.ejs")
+        res.render("subjects_views/MAT231CT.ejs", {id})
         return;
     }
     const hasAttempted = await responseDB.findOne({quizId: liveQuiz.quizId, studentId: id});
     if(hasAttempted){
-        res.render("subjects_views/MAT231CT.ejs")
+        res.render("subjects_views/MAT231CT.ejs", {id})
         return;
     }
     const quizId = liveQuiz.quizId;
     const quiz = await uploadDB.findOne({_id: quizId});
     if(!quiz){
-        res.render("subjects_views/MAT231CT.ejs")
+        res.render("subjects_views/MAT231CT.ejs", {id})
         return;
     }
     const quizName = quiz.quizArray[0];
@@ -237,25 +237,27 @@ app.post("/studentLogin/:id/MAT231CT/response/:quizId", async(req, res)=>{
                 val = val.toString();
                 if(quizArray[i].correctOrWrong[val] === '001'){
                     // console.log(true);
-                    const resp = await responseDB.create({
+                    await responseDB.create({
                         studentId: req.params.id,
                         quizId: quizId,
                         teacherId: quiz.teacherID,
                         response: [{
                             whichQuestion: quizArray[i],
                             marksObtained: quizArray[i].marks.toString(),
+                            markedOptions: val,
                         }]
                     })
                     // console.log(resp)
                 } else {
                     // console.log(false);
-                    const resp = await responseDB.create({
+                    await responseDB.create({
                         studentId: req.params.id,
                         quizId: quizId,
                         teacherId: quiz.teacherID,
                         response: [{
                             whichQuestion: quizArray[i],
                             marksObtained: '0',
+                            markedOptions: val,
                         }]
                     })
                     // console.log(resp);
@@ -270,36 +272,39 @@ app.post("/studentLogin/:id/MAT231CT/response/:quizId", async(req, res)=>{
                     }
                 } 
                 if(flag.length == val.length){
-                    const resp = await responseDB.create({
+                    await responseDB.create({
                         studentId: req.params.id,
                         quizId: quizId,
                         teacherId: quiz.teacherID,
                         response: [{
                             whichQuestion: quizArray[i],
                             marksObtained: quizArray[i].marks.toString(),
+                            markedOptions: val,
                         }]
                     })
                     // console.log(resp)
                 } else {
-                    const resp = await responseDB.create({
+                    await responseDB.create({
                         studentId: req.params.id,
                         quizId: quizId,
                         teacherId: quiz.teacherID,
                         response: [{
                             whichQuestion: quizArray[i],
                             marksObtained: '0',
+                            markedOptions: val,
                         }]
                     })
                     // console.log(resp);
                 }
             } else {
-                const resp = await responseDB.create({
+                await responseDB.create({
                     studentId: req.params.id,
                     quizId: quizId,
                     teacherId: quiz.teacherID,
                     response: [{
                         whichQuestion: quizArray[i],
                         marksObtained: '0',
+                        markedOptions: val,
                     }]
                 })
             }
@@ -311,12 +316,90 @@ app.post("/studentLogin/:id/MAT231CT/response/:quizId", async(req, res)=>{
                 response: [{
                     whichQuestion: quizArray[i],
                     marksObtained: '0',
+                    markedOptions: '',
                 }]
             })
         }
     }
     const id = req.params.id
     res.redirect(`/studentLogin/${id}/`);
+})
+
+app.get("/studentLogin/:id/MAT231CT/viewAllAttempts", async(req, res)=>{
+    const id = req.params.id;
+    const hasAttempted = await responseDB.find({studentId: id});
+    if(!hasAttempted){
+        res.send("no previous attempts");
+        return;
+    }
+    const teacher = await teacherLoginDB.find({"subject.code": 'MAT231CT'})
+    const teacherId = teacher[0]._id.toString();
+    const val = await responseDB.aggregate([
+        {
+            $match: {
+                studentId: id,
+                teacherId: teacherId,
+            },
+        },
+        {
+            $group: {
+                _id: '$quizId',
+                responses: {$push: '$$ROOT'}
+            }
+        },
+    ])
+    if(val){
+        for(let i=0; i<val.length; i++){
+            const quiz = await uploadDB.findOne({_id: val[i]._id});
+            if(quiz){
+                val[i].uploads = quiz.quizArray;
+            }
+        }
+    }
+    res.render("allAttempts.ejs", {val, id});
+})
+
+app.post("/studentLogin/:id/MAT231CT/viewParticular", async(req, res)=>{
+    const id = req.params.id;
+    const teacher = await teacherLoginDB.find({"subject.code": 'MAT231CT'})
+    const teacherId = teacher[0]._id.toString();
+    const val = await responseDB.aggregate([
+        {
+            $match: {
+                studentId: id,
+                teacherId: teacherId,
+            },
+        },
+        {
+            $group: {
+                _id: '$quizId',
+                responses: {$push: '$$ROOT'}
+            }
+        },
+    ])
+    let response = [];
+    if(val){
+        for(let i=0; i<val.length; i++){
+            const quiz = await uploadDB.findOne({_id: val[i]._id});
+            if(quiz){
+                val[i].uploads = quiz.quizArray;
+            }
+        }
+        for(let i=0; i<val.length; i++){
+            if(val[i]._id == req.body.clickedBtn){
+                response.push(val[i]);
+            }
+        }
+    }
+    // console.log(response);
+    let result = response[0];
+    // console.log(result);
+    const quizName = result.uploads[0];
+    const totalMarks = result.uploads[1];
+    const duration = result.uploads[2];
+    result = result.responses;
+    // console.log(result)
+    res.render("viewParticularAttempt.ejs", {result, id, quizName, totalMarks, duration});
 })
 
 app.get("/studentLogin/:id/MAT231CT/quiz", async(req, res)=>{
@@ -429,6 +512,6 @@ app.get("/studentLogin/:id/ME232AT", async(req, res)=>{
     res.render("subjects_views/ME232AT.ejs");
 });
 
-app.listen(8080, () => {
+app.listen(9090, () => {
     console.log("listening to port 8080");
 });

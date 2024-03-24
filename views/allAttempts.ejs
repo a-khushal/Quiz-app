@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Attempts</title>
+</head>
+<body>
+    <h1>Previous Attempts:</h1>
+    <% for(let i=0; i<val.length; i++) { %>
+        <form action="/studentLogin/<%=id%>/MAT231CT/viewParticular" method="post">
+            <button name="clickedBtn" id="clickedBtn" value="<%= val[i]._id %>"><%= val[i].uploads[0]%>&nbsp;&nbsp;&nbsp;(<%= val[i]._id %>)</button>
+        </form><br><br>
+    <% } %>
+
+</body>
+</html>

@@ -36,7 +36,7 @@ router
             // console.log(interval);
             setTimeout(async() => {
                 await liveDB.deleteOne({quizId: quizId});
-            }, interval * 1000);
+            }, 300 * 1000);
             res.send(`quiz will be availabe for ${duration + 30} minutes for ${checkedBoxes}`)
         } catch(err){
             res.send("some error");
