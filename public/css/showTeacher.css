@@ -64,6 +64,16 @@ h1{
     
 }
 
+.logbutton{
+    background-color: #b71717;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
 .styled-button:hover {
     background-color: #2980b9;
 }
