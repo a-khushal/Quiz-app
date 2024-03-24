@@ -42,13 +42,13 @@
         const timerElement = document.getElementById("timer");
         const countdownInterval = setInterval(function() {
             if (totalSeconds <= 0) {
-            clearInterval(countdownInterval);
-            timerElement.textContent = "Countdown finished!";
-            const quizForm = document.getElementById("quizForm");
-            quizForm.setAttribute("action", "/studentLogin/<%= id %>/MAT231CT/response/<%= quizId %>");
-            quizForm.setAttribute("method", "post");
-            quizForm.submit();
-            alert("quizEnded");
+                clearInterval(countdownInterval);
+                timerElement.textContent = "Countdown finished!";
+                const quizForm = document.getElementById("quizForm");
+                quizForm.setAttribute("action", "/studentLogin/<%= id %>/MAT231CT/response/<%= quizId %>");
+                quizForm.setAttribute("method", "post");
+                quizForm.submit();
+                alert("quizEnded");
             } else {
                 const displayMinutes = Math.floor(totalSeconds / 60);
                 const displaySeconds = totalSeconds % 60;
