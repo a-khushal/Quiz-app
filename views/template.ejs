@@ -33,18 +33,24 @@
 <body>
     <div class="container">
     <form action="/teacherLogin/<%= id %>/quizTemplate" method="post" class="form-group">
-        <button class="upload-btn">Download questions template</button>
-    </form><br><br><br>
+        <button class="upload-btn">Download template</button>
+    </form><br><br>
+    <div>
     <form action="/teacherLogin/<%=id%>/uploadFile" method="post" enctype="multipart/form-data" class="form-group" id="uploadForm">
         <h3>Upload a Questions File:</h3>
-        <br><br>
-        <input type="file" name="edittedFile" id="edittedFile" accept=".docx" required>
+        <br>
+        <div>
+        <input type="file" name="edittedFile" id="edittedFile" accept=".docx" required></div>
         (Max fileSize: 450kb)
+        <br>
+        <br>
+        <br>
         <button type="submit" class="submit-btn">Submit the file</button>
     </form>
     <form action="/teacherLogin/<%=id%>/uploadFile/back">
         <button class="back-btn" type="submit">Back</button>
     </form>
+    </div>
 </div>
 
 <script>
