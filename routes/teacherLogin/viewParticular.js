@@ -16,6 +16,7 @@ router
             for(let i=3; i<(quiz.quizArray).length; i++){
                 quizQues.push(quiz.quizArray[i]);
             }
+            // console.log(quizQues);
             res.render("../views/viewParticular.ejs", {quizQues, quizName, totalmarks, duration});
         } catch(err){
             res.send("some error")

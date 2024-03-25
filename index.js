@@ -356,7 +356,12 @@ app.get("/studentLogin/:id/MAT231CT/viewAllAttempts", async(req, res)=>{
             }
         }
     }
-    res.render("allAttempts.ejs", {val, id});
+    // console.log(val);
+    if(val.length){
+        res.render("allAttempts.ejs", {val, id});
+        return;
+    }
+    res.render("noPrevAttempts.ejs");
 })
 
 app.post("/studentLogin/:id/MAT231CT/viewParticular", async(req, res)=>{

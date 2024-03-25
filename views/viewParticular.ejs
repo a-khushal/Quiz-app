@@ -33,7 +33,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
     <link rel="stylesheet" href="/css/viewParticular.css">
-
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
 <body>
@@ -42,7 +43,7 @@
             <%= quizName %>
         </h1>
         <div>
-            <span>Duration: <%= duration %></span>
+            <span>Duration: <%= duration %> mins</span>
             <span style="margin-left: 20px;">Total Marks: <%= totalmarks %></span>
         </div>
         <br>
@@ -52,11 +53,11 @@
             <table class="question-table">
                 <tr>
                     <th colspan="2">Question <%= i+1 %>
-                    </th>
+                    <span style="float: right;">marks: <%=quizQues[i].marks%></span></th>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <%= quizQues[i].question %>
+                        $$<%= quizQues[i].question %>$$
                     </td>
                 </tr>
             </table>
@@ -67,12 +68,27 @@
                 <% for(let j=0; j<(quizQues[i].enteredOptions).length; j++) { %>
                     <tr>
                         <td>
-                            <%= (quizQues[i].enteredOptions)[j] %>
+                            $$<%= (quizQues[i].enteredOptions)[j] %>$$
                         </td>
                     </tr>
-                    <% } %>
+                <% } %>
             </table>
-            <br><br>
+            <table class="options-table">
+                <tr>
+                    <th>Correct Answers: </th>
+                </tr>
+                <% for(key in quizQues[i].correctOrWrong){%>
+                    <% if(quizQues[i].correctOrWrong[key] === '001'){ %>
+                        <tr>
+                            <td>$$ <%= key %> $$</td>
+                        </tr>
+                    <% } %>
+                <% } %>
+                
+            </table>
+            <br><br><br>
+            <hr>
+            <br><br><br>
             <% } %>
     </div>
 </body>

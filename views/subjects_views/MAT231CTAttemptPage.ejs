@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <h1><%=quizName%></h1>
@@ -14,7 +16,7 @@
     <form id="quizForm">
         <% for(let i = 3; i < quizArray.length; i++) { %>
             <div>
-                <div><%= i - 2 %>&nbsp;<%= quizArray[i].question %></div><br>
+                <div><%= i - 2 %>&nbsp;$$<%= quizArray[i].question %>$$</div><br>
                 <% let arr = []; %>
                 <% for (const key in quizArray[i].correctOrWrong) { %>
                     <% if (quizArray[i].correctOrWrong[key] === '001') { %>
@@ -24,12 +26,12 @@
                 <% if (arr.length > 1) { %>
                     <% for (let j = 0; j < quizArray[i].enteredOptions.length; j++) { %>
                         &nbsp;&nbsp;&nbsp; <input type="checkbox" name="<%= quizArray[i].question %>" value="<%= quizArray[i].enteredOptions[j] %>">&nbsp;
-                        <label for="option<%= quizArray[i].question %>"><%= quizArray[i].enteredOptions[j] %></label><br><br>
+                        <label for="option<%= quizArray[i].question %>">$$<%= quizArray[i].enteredOptions[j] %>$$</label><br><br>
                     <% } %>
                 <% } else { %>
                     <% for (let j = 0; j < quizArray[i].enteredOptions.length; j++) { %>
                         &nbsp;&nbsp;&nbsp; <input type="radio" name="<%= quizArray[i].question %>" value="<%= quizArray[i].enteredOptions[j] %>">&nbsp;
-                        <label for="option<%= quizArray[i].question %>"><%= quizArray[i].enteredOptions[j] %></label><br><br>
+                        <label for="option<%= quizArray[i].question %>">$$<%= quizArray[i].enteredOptions[j] %>$$</label><br><br>
                     <% } %>
                 <% } %>
             </div> <br><br><br>
