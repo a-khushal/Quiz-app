@@ -18,12 +18,18 @@
                         <button name="clickedButton" value="<%=quizNamesId[i].dispName%>"><%=quizNamesId[i].dispName%></button>&nbsp;&nbsp;&nbsp;
                 </form>
                 <% if(quizNamesId[i].isMadeLive == true){ %>
-                    <form action="/teacherLogin/<%=id%>/makeLive" method="post">
-                        <button name="clickedButton" value="<%=quizNamesId[i].dispName%>" id="makeLiveBtn" disabled>make this quiz live</button>&nbsp;&nbsp;&nbsp;
+                    <form>
+                        <button disabled>make this quiz live</button>&nbsp;&nbsp;&nbsp;
+                    </form>
+                    <form id="offline">
+                        <button onclick="confirmOffline()" name="makeOfflineBtn" value="<%=quizNamesId[i].dispName%>">make this quiz offline</button>&nbsp;&nbsp;&nbsp;
                     </form>
                 <% } else if(quizNamesId[i].isMadeLive == false) { %>
                     <form action="/teacherLogin/<%=id%>/makeLive" method="post">
                         <button name="clickedButton" value="<%=quizNamesId[i].dispName%>" id="makeLiveBtn">make this quiz live</button>&nbsp;&nbsp;&nbsp;
+                    </form>
+                    <form>
+                        <button disabled>make this quiz offline</button>&nbsp;&nbsp;&nbsp;
                     </form>
                 <% } %>
                 <br><br><br>
@@ -45,6 +51,16 @@
         //         event.preventDefault();
         //     }
         // }
+        function confirmOffline(){
+            const offlineForm = document.getElementById("offline");
+            if(confirm("make this offline?")){
+                offlineForm.setAttribute("action", "/teacherLogin/<%=id%>/makeOffline");
+                offlineForm.setAttribute("method", "post");
+                offlineForm.submit();
+            } else {
+                event.preventDefault();
+            }
+        }
     </script>
 </body>
 </html>

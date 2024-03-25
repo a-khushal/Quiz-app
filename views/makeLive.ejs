@@ -9,14 +9,14 @@
     <h1><%=quizName%></h1>
     <h4>Duration: <%=duration%></h4><br>
     <h2>Make quiz Live for?</h2>
-    <form action="/teacherLogin/<%=id%>/madeLive" method="post" onsubmit="return selectAtleastOne()">
+    <form id="liveForm" onsubmit="return selectAtleastOne()">
         <label for="cy">CY</label>
         <input name="cy" type="checkbox"><br><br>
         <label for="cs">CS</label>
         <input name="cs" type="checkbox"><br><br>
         <label for="cd">CD</label>
         <input name="cd" type="checkbox"><br><br>
-        <button type="submit" value="<%=quizId%>" name="clickedButton">submit</button>
+        <button type="submit" value="<%=quizId%>" name="clickedButton" onclick="confirmLive()">submit</button>
     </form>
     <script>
         function selectAtleastOne(){
@@ -28,6 +28,19 @@
                 return false;
             }
             return true;
+        }
+        function confirmLive(){
+            const liveForm = document.getElementById("liveForm");
+            if(confirm("confirm?")){
+                liveForm.setAttribute("action", "/teacherLogin/<%=id%>/madeLive");
+                liveForm.setAttribute("method", "post");
+                liveForm.submit();
+                const duration = "<%=duration%>";
+                const totalTime = parseInt(duration)+30;
+                alert(`quiz is made available for ${totalTime} mins`)
+            } else {
+                event.preventDefault();
+            }
         }
     </script>
 </body>

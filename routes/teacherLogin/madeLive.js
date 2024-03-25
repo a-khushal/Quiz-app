@@ -26,18 +26,14 @@ router
             const quiz = await uploadDB.findOne({_id: quizId});
             const duration = parseInt(quiz.quizArray[2]);
             const durationInSec = duration * 60;
-            // console.log(durationInSec)
             const dateTime = new Date();
             const currTimeInSec = Math.floor(dateTime.getTime()/1000);
-            // console.log(currTimeInSec, durationInSec);
             const finalTimeInSec = currTimeInSec + durationInSec + 30 * 60;
-            // console.log(finalTimeInSec)
             const interval = finalTimeInSec - currTimeInSec;
-            // console.log(interval);
             setTimeout(async() => {
                 await liveDB.deleteOne({quizId: quizId});
-            }, 300 * 1000);
-            res.send(`quiz will be availabe for ${duration + 30} minutes for ${checkedBoxes}`)
+            }, interval * 1000);
+            res.redirect(`/teacherLogin/${id}/viewAllQuizzes`);
         } catch(err){
             res.send("some error");
             console.log(err);

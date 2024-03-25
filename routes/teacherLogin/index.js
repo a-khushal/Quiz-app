@@ -11,6 +11,7 @@ const viewParticularRouter = require("./viewParticular");
 const makeLiveRouter = require("./makeLive");
 const madeLiveRouter = require("./madeLive");
 const deleteRouter = require("./deleteQuiz");
+const makeOfflineRouter = require("./makeOffline");
 
 router.use(showTeacherRouter);
 router.use(cyRouter);
@@ -23,6 +24,7 @@ router.use(viewParticularRouter);
 router.use(makeLiveRouter);
 router.use(madeLiveRouter);
 router.use(deleteRouter);
+router.use(makeOfflineRouter);
 
 module.exports = router;
 
