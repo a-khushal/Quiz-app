@@ -14,9 +14,18 @@
         <p id="timer">timer</p>
     </center><br><br><br>
     <form id="quizForm">
-        <% for(let i = 3; i < quizArray.length; i++) { %>
+        <% function shuffleArray(array) { %>
+            <% array = array.slice(3); %>
+            <% for (let i = array.length - 1; i > 0; i--) { %>
+                <% const k = Math.floor(Math.random() * (i + 1)); %>
+                <% [array[i], array[k]] = [array[k], array[i]]; %>
+            <% } %>
+            <% return array; %>
+        <% } %>
+        <% quizArray = shuffleArray(quizArray) %>
+        <% for(let i = 0; i < quizArray.length; i++) { %>
             <div>
-                <div><%= i - 2 %>&nbsp;$$<%= quizArray[i].question %>$$</div><br>
+                <div><%= i+1 %>&nbsp;$$<%= quizArray[i].question %>$$</div><br>
                 <% let arr = []; %>
                 <% for (const key in quizArray[i].correctOrWrong) { %>
                     <% if (quizArray[i].correctOrWrong[key] === '001') { %>
@@ -34,7 +43,8 @@
                         <label for="option<%= quizArray[i].question %>">$$<%= quizArray[i].enteredOptions[j] %>$$</label><br><br>
                     <% } %>
                 <% } %>
-            </div> <br><br><br>
+            </div> 
+            <br><hr><br>
         <% } %>
         <button type="submit" onclick="confirmSubmit()">submit</button>
     </form>
@@ -62,7 +72,7 @@
             }, 1000);
         }
         const timerVal = "<%= duration %>"; 
-        countdown(parseInt(duration));
+        countdown(parseInt(timerVal));
         function confirmSubmit(){
             const quizFrom = document.getElementById("quizForm");
             if(confirm("Save and submit?")){    

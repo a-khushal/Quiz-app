@@ -195,6 +195,7 @@ app.post("/studentLogin/:id/MAT231CT/attemptQuiz", async(req, res)=>{
     const totalmarks = quiz.quizArray[1];
     const quizArray = quiz.quizArray;
     const ques1 = quizArray[3].question;
+    // console.log(quizArray);
     res.render("subjects_views/MAT231CTAttemptPage.ejs", {quizId, id, quizName, duration, totalmarks, quizArray, ques1});
 })
 
@@ -282,7 +283,6 @@ app.post("/studentLogin/:id/MAT231CT/response/:quizId", async(req, res)=>{
                             markedOptions: val,
                         }]
                     })
-                    // console.log(resp)
                 } else {
                     await responseDB.create({
                         studentId: req.params.id,
@@ -356,7 +356,6 @@ app.get("/studentLogin/:id/MAT231CT/viewAllAttempts", async(req, res)=>{
             }
         }
     }
-    // console.log(val);
     if(val.length){
         res.render("allAttempts.ejs", {val, id});
         return;
@@ -517,6 +516,6 @@ app.get("/studentLogin/:id/ME232AT", async(req, res)=>{
     res.render("subjects_views/ME232AT.ejs");
 });
 
-app.listen(9090, () => {
+app.listen(8080, () => {
     console.log("listening to port 8080");
 });
