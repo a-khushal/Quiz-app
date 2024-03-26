@@ -54,7 +54,7 @@ router
                   data: XLSX.utils.sheet_to_json(excelData.Sheets[name]),
                 }));
               }
-            parse("./Book.xlsx").forEach(async (val)=>{
+            parse(file).forEach(async (val)=>{
                 const data = val.data;
                 const teacherExitst = await teacherLoginDB.findOne({email: data[0].teacherEmail});
                 let teacher;

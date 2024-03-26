@@ -2,26 +2,16 @@ const express = require("express");
 const router = express.Router();
 const fs = require('fs');
 
+
 router
-    .route("/teacherLogin/:id/quizTemplate")
-    .get(async (req, res) => {
-        try {
-            const id = req.params.id;
-            res.render('../views/template.ejs', {id});
-            // process.exit(0);
-            // process.emit('SIGUSR2');
-        } catch (err) {
-            console.log(err);
-            res.status(500).json({ success: false, message: "An error occurred" });
-        }
-    })
+    .route("/management/downloadExcel")
     .post(async(req, res)=>{
         try{
-            const filePath = __dirname+'/Document.docx';
+            const filePath = __dirname+'/Book.xlsx';
             if (fs.existsSync(filePath)) {
                 res.sendFile(filePath, { 
                     headers: {
-                        'Content-Disposition': 'attachment; filename="template.docx"'
+                        'Content-Disposition': 'attachment; filename="book.xlsx"'
                     }
                 }, (err) => {
                     if (err) {
@@ -38,6 +28,5 @@ router
             res.status(500).json({ success: false, message: "An error occurred" });
         }
     })
-
 
 module.exports = router;
