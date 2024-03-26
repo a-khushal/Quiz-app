@@ -28,12 +28,12 @@
                         <%= result[i].response[0].marksObtained %>)</div><br>
             <% for(let j=0; j<result[i].response[0].whichQuestion.enteredOptions.length; j++){ %>
                 &nbsp;&nbsp;&nbsp;&nbsp; <div>$$<%= result[i].response[0].whichQuestion.enteredOptions[j] %>$$</div>
-                <% } %> <br>
+                <% } %> <br><hr>
                     correct option(s): <% for(key in result[i].response[0].whichQuestion.correctOrWrong) { %>
                         <% if((result[i].response[0].whichQuestion.correctOrWrong)[key]==='001' ){ %>
                             $$<%= key %>$$ <br>
                                 <% } %>
-                                    <% } %> <br><br>
+                                    <% } %> <br><br><hr>
                                         <% if(Array.isArray(result[i].response[0].markedOptions)) { %>
                                             marked options(s): <br>
                                             <% for(let j=0; j<result[i].response[0].markedOptions.length; j++) { %>

@@ -53,11 +53,18 @@
             <table class="question-table">
                 <tr>
                     <th colspan="2">Question <%= i+1 %>
-                    <span style="float: right;">marks: <%=quizQues[i].marks%></span></th>
+                            <span style="float: right;">marks: <%=quizQues[i].marks%></span></th>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <!-- <td colspan="2">
                         $$<%= quizQues[i].question %>$$
+                    </td> -->
+                    <td colspan="2" style="word-wrap:break-word;">
+
+                        $$<%= quizQues[i].question %>$$
+
+
+
                     </td>
                 </tr>
             </table>
@@ -71,20 +78,20 @@
                             $$<%= (quizQues[i].enteredOptions)[j] %>$$
                         </td>
                     </tr>
-                <% } %>
+                    <% } %>
             </table>
             <table class="options-table">
                 <tr>
                     <th>Correct Answers: </th>
                 </tr>
                 <% for(key in quizQues[i].correctOrWrong){%>
-                    <% if(quizQues[i].correctOrWrong[key] === '001'){ %>
+                    <% if(quizQues[i].correctOrWrong[key]==='001' ){ %>
                         <tr>
                             <td>$$ <%= key %> $$</td>
                         </tr>
-                    <% } %>
-                <% } %>
-                
+                        <% } %>
+                            <% } %>
+
             </table>
             <br><br><br>
             <hr>
