@@ -8,7 +8,7 @@ const teacherSchema = mongoose.Schema({
     subject: {
         type: Object,
     },
-    studentsId: [String]
+    studentsId: [String],
 });
 const teacherLoginDB = mongoose.model("teacherLoginDB", teacherSchema);
 module.exports = teacherLoginDB;

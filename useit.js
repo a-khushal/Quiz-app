@@ -298,101 +298,114 @@
         // console.log(isValueRepeated(myObject, 'value3')); // Output: false
         
 
-        function shuffleAndExcludeFirstThree(array) {
-            // Shuffle the array
-            array = array.slice(3);
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            // Return a new array without the first three elements
-            return array
-        }
+        // function shuffleAndExcludeFirstThree(array) {
+        //     // Shuffle the array
+        //     array = array.slice(3);
+        //     for (let i = array.length - 1; i > 0; i--) {
+        //         const j = Math.floor(Math.random() * (i + 1));
+        //         [array[i], array[j]] = [array[j], array[i]];
+        //     }
+        //     // Return a new array without the first three elements
+        //     return array
+        // }
         
-        // Example usage:
-        const originalArray = [
-            'QUIZ – 02 for CY',
-            '1',
-            '20',
-            {
-              question: 'What is blockchain?',
-              marks: 1,
-              enteredOptions: [
-                'Blockchain',
-                'Chain of block',
-                'Block of chains',
-                'Not a blockchain'
-              ],
-              noofooptions: 4,
-              correctOrWrong: {
-                Blockchain: '001',
-                'Chain of block': '001',
-                'Block of chains': '000',
-                'Not a blockchain': '000'
-              }
-            },
-            {
-              question: '',
-              marks: 1,
-              enteredOptions: [ '0', '1' ],
-              noofooptions: 4,
-              correctOrWrong: { '0': '000', '1': '000' }
-            },
-            {
-              question: '',
-              marks: 2,
-              enteredOptions: [ '1', '0', '-1', '2', '3' ],
-              noofooptions: 5,
-              correctOrWrong: { '0': '000', '1': '000', '2': '000', '3': '001', '-1': '000' }
-            },
-            { question: '', marks: 3, enteredOptions: [], noofooptions: 4 },
-            {
-              question: 'Ashok sir is?',
-              marks: 1,
-              enteredOptions: [ 'Compiler', 'Interpreter', 'Teacher' ],
-              noofooptions: 3,
-              correctOrWrong: { Compiler: '001', Interpreter: '001', Teacher: '000' }
-            },
-            {
-              question: ' = ?',
-              marks: 1,
-              enteredOptions: [ 'Dr. Prapulla', 'Infinity', 'π', '∞' ],
-              noofooptions: 4,
-              correctOrWrong: { 'Dr. Prapulla': '001', Infinity: '001', 'π': '000', '∞': '000' }
-            },
-            {
-              question: 'SP road expert is ?',
-              marks: 1,
-              enteredOptions: [ 'Dharmik', 'Khushal', 'Kishore', 'Deeksith' ],
-              noofooptions: 4,
-              correctOrWrong: { Dharmik: '000', Khushal: '000', Kishore: '000', Deeksith: '001' }
-            },
-            {
-              question: 'Owner of Uppi’s & more….',
-              marks: 1,
-              enteredOptions: [ 'Tefus', 'Prajwal', 'Amogh', 'Sena' ],
-              noofooptions: 4,
-              correctOrWrong: { Tefus: '000', Prajwal: '001', Amogh: '000', Sena: '000' }
-            },
-            {
-              question: '',
-              marks: 1,
-              enteredOptions: [ '10', '2', '0', '1' ],
-              noofooptions: 4,
-              correctOrWrong: { '0': '000', '1': '000', '2': '001', '10': '000' }
-            },
-            {
-              question: 'The reason for dharmadh yettu is?',
-              marks: 1,
-              enteredOptions: [ 'Volleyball', 'Special Player', 'Kishore', 'khushalA' ],
-              noofooptions: 4,
-              correctOrWrong: {
-                Volleyball: '000',
-                'Special Player': '001',
-                Kishore: '000',
-                khushalA: '000'
-              }
-            }
-          ];
-        const shuffledArrayWithoutFirstThree = shuffleAndExcludeFirstThree(originalArray);
-        console.log(shuffledArrayWithoutFirstThree.length, originalArray.length);
+        // // Example usage:
+        // const originalArray = [
+        //     'QUIZ – 02 for CY',
+        //     '1',
+        //     '20',
+        //     {
+        //       question: 'What is blockchain?',
+        //       marks: 1,
+        //       enteredOptions: [
+        //         'Blockchain',
+        //         'Chain of block',
+        //         'Block of chains',
+        //         'Not a blockchain'
+        //       ],
+        //       noofooptions: 4,
+        //       correctOrWrong: {
+        //         Blockchain: '001',
+        //         'Chain of block': '001',
+        //         'Block of chains': '000',
+        //         'Not a blockchain': '000'
+        //       }
+        //     },
+        //     {
+        //       question: '',
+        //       marks: 1,
+        //       enteredOptions: [ '0', '1' ],
+        //       noofooptions: 4,
+        //       correctOrWrong: { '0': '000', '1': '000' }
+        //     },
+        //     {
+        //       question: '',
+        //       marks: 2,
+        //       enteredOptions: [ '1', '0', '-1', '2', '3' ],
+        //       noofooptions: 5,
+        //       correctOrWrong: { '0': '000', '1': '000', '2': '000', '3': '001', '-1': '000' }
+        //     },
+        //     { question: '', marks: 3, enteredOptions: [], noofooptions: 4 },
+        //     {
+        //       question: 'Ashok sir is?',
+        //       marks: 1,
+        //       enteredOptions: [ 'Compiler', 'Interpreter', 'Teacher' ],
+        //       noofooptions: 3,
+        //       correctOrWrong: { Compiler: '001', Interpreter: '001', Teacher: '000' }
+        //     },
+        //     {
+        //       question: ' = ?',
+        //       marks: 1,
+        //       enteredOptions: [ 'Dr. Prapulla', 'Infinity', 'π', '∞' ],
+        //       noofooptions: 4,
+        //       correctOrWrong: { 'Dr. Prapulla': '001', Infinity: '001', 'π': '000', '∞': '000' }
+        //     },
+        //     {
+        //       question: 'SP road expert is ?',
+        //       marks: 1,
+        //       enteredOptions: [ 'Dharmik', 'Khushal', 'Kishore', 'Deeksith' ],
+        //       noofooptions: 4,
+        //       correctOrWrong: { Dharmik: '000', Khushal: '000', Kishore: '000', Deeksith: '001' }
+        //     },
+        //     {
+        //       question: 'Owner of Uppi’s & more….',
+        //       marks: 1,
+        //       enteredOptions: [ 'Tefus', 'Prajwal', 'Amogh', 'Sena' ],
+        //       noofooptions: 4,
+        //       correctOrWrong: { Tefus: '000', Prajwal: '001', Amogh: '000', Sena: '000' }
+        //     },
+        //     {
+        //       question: '',
+        //       marks: 1,
+        //       enteredOptions: [ '10', '2', '0', '1' ],
+        //       noofooptions: 4,
+        //       correctOrWrong: { '0': '000', '1': '000', '2': '001', '10': '000' }
+        //     },
+        //     {
+        //       question: 'The reason for dharmadh yettu is?',
+        //       marks: 1,
+        //       enteredOptions: [ 'Volleyball', 'Special Player', 'Kishore', 'khushalA' ],
+        //       noofooptions: 4,
+        //       correctOrWrong: {
+        //         Volleyball: '000',
+        //         'Special Player': '001',
+        //         Kishore: '000',
+        //         khushalA: '000'
+        //       }
+        //     }
+        //   ];
+        // const shuffledArrayWithoutFirstThree = shuffleAndExcludeFirstThree(originalArray);
+        // console.log(shuffledArrayWithoutFirstThree.length, originalArray.length);
+
+const XLSX = require("xlsx");
+const parse = (filename)=>{
+  const excelData = XLSX.readFile(filename);
+  return Object.keys(excelData.Sheets).map((name)=>({
+    name, 
+    data: XLSX.utils.sheet_to_json(excelData.Sheets[name]),
+  }));
+}
+
+parse("./Book.xlsx").forEach((val)=>{
+  console.log(val.data);
+})

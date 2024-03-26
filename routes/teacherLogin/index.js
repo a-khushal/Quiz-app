@@ -12,6 +12,7 @@ const makeLiveRouter = require("./makeLive");
 const madeLiveRouter = require("./madeLive");
 const deleteRouter = require("./deleteQuiz");
 const makeOfflineRouter = require("./makeOffline");
+const excelUploadRouter = require("./uploadExcel");
 
 router.use(showTeacherRouter);
 router.use(cyRouter);
@@ -25,6 +26,7 @@ router.use(makeLiveRouter);
 router.use(madeLiveRouter);
 router.use(deleteRouter);
 router.use(makeOfflineRouter);
+router.use(excelUploadRouter);
 
 module.exports = router;
 
