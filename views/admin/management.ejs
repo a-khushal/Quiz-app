@@ -1,36 +1,40 @@
 <!DOCTYPE html>
-<html >
+<html>
+
 <head>
   <meta charset="UTF-8">
   <title>Administrator</title>
-  
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 
-  
-      <link rel="stylesheet" href="/css/management.css">
 
-      <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-      <!-- progress barstle -->
-      <link rel="stylesheet" href="/css/css-circular-prog-bar.css">
-      <!-- fonts style -->
-      <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Raleway:400,600&display=swap" rel="stylesheet">
-      <!-- font wesome stylesheet -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-      <!-- Custom styles for this template -->
-      <link href="/css/style_index.css" rel="stylesheet" />
-      <!-- responsive style -->
-      <link href="/css/responsive.css" rel="stylesheet" />
-    
-    
-    
-    
-      <link rel="stylesheet" href="/css/css-circular-prog-bar.css">
-    
+  <link rel="stylesheet" href="/css/management.css">
 
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+  <!-- progress barstle -->
+  <link rel="stylesheet" href="/css/css-circular-prog-bar.css">
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Raleway:400,600&display=swap" rel="stylesheet">
+  <!-- font wesome stylesheet -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <!-- Custom styles for this template -->
+  <link href="/css/style_index.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="/css/responsive.css" rel="stylesheet" />
+
+
+
+
+  <link rel="stylesheet" href="/css/css-circular-prog-bar.css">
+  <style>
     
+  </style>
+
+
+
 </head>
+
 <body style="align-self: center;">
-    
 
 
 
@@ -39,15 +43,16 @@
 
 
 
-    <header class="header_section">
-        <div class="container">
-          <nav class="navbar navbar-expand-lg custom_nav-container ">
-            <a class="navbar-brand" href="index.html">
-              <span style="font-size: xxx-large;">
-                QUIZ-App
-              </span>
-            </a>
-            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+
+  
+    <div class="container">
+      <nav class="navbar navbar-expand-lg custom_nav-container ">
+        <a class="navbar-brand" href="index.html">
+          <span style="font-size: xxx-large;">
+            HELLO ADMIN!
+          </span>
+        </a>
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -79,31 +84,35 @@
              
                 </ul>
               </div>-->
-          </nav>
-        </div>
-      </header> 
+      </nav>
+    
+  
 
 
 
 
 
-      <form action="/management/downloadExcel" method="post">
-        <button>Download Excel file</button>
-      </form>
+  <form action="/management/downloadExcel" method="post">
+    <button>Download Excel file</button>
+  </form>
 
-      <br><br><br>
+  <br><br><br>
 
-      <form action="/management/uploadExcel" method="post" enctype="multipart/form-data" >
-        <h3>Upload a excel file:</h3>
-        <br>
-        <div>
-        <input type="file" name="edittedFile" id="edittedFile" accept=".xlsx" required></div>
-        (Max fileSize: 450kb)
-        <br>
-        <br>
-        <br>
-        <button type="submit">Submit the file</button>
-    </form>
-    <script src="js/index.js"></script>
+  <form action="/management/uploadExcel" method="post" enctype="multipart/form-data">
+    <h3>Upload a excel file:</h3>
+    <br>
+    <div>
+      <input type="file" name="edittedFile" id="edittedFile" accept=".xlsx" required>
+    </div>
+    (Max fileSize: 450kb)
+    <br>
+    <br>
+    <br>
+    <button type="submit">Submit the file</button>
+  </form>
+  <script src="js/index.js"></script>
+  </div>
+
 </body>
+
 </html>

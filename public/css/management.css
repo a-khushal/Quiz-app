@@ -1,7 +1,7 @@
 
 h1{
   font-size: 30px;
-  color: #fff;
+  color: #000000;
   font-weight: 300;
   text-align: center;
   margin-bottom: 15px;
@@ -41,10 +41,67 @@ td{
 /* demo styles */
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
-body{
-  background: -webkit-linear-gradient(left,  #b77ded, #ea87ef);
-  background: linear-gradient(to right,  #b77ded, #ea87ef);
-  font-family: 'Roboto', sans-serif;
+body {
+  font-family: Montserrat, sans-serif;
+  /* font-family: Arial, sans-serif; */
+  background: linear-gradient(to right, #b77ded, #ea87ef);
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background-color: #ae7cff;
+  max-width: 900px;
+  margin: 50px auto;
+  margin-top: 50px;
+  padding: 20px;
+  /*background: linear-gradient(to right, #b77ded, #ea87ef);*/
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  color: #000000;
+  /* margin-top: 50px; */
+}
+
+.quiz-container {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  margin-top: 30px;
+}
+
+form {
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #808080;
+  cursor: not-allowed;
 }
 section{
   margin: 50px;

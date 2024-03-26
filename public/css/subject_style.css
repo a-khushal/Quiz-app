@@ -48,3 +48,22 @@ h3 {
     
     font-size: 30px; /* Change the font size */
 }
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #808080;
+    cursor: not-allowed;
+}

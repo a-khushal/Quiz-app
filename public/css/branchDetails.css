@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #b77ded, #ea87ef);
+    color: #000000;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333; /* Dark gray color for heading */
+}
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+    margin: 20px auto; /* Center the table horizontally */
+    background-color: #ae7cff;
+}
+
+th, td {
+    border: 1px solid #333; /* Dark gray border */
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f733e3;
+}

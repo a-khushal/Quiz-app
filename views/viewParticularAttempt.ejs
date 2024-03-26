@@ -1,40 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>viewParticularAttempt</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/css/viewparticularattempt.css">
 </head>
+
 <body>
-    <h1><%=quizName%></h1>
-    <div style="display: flex;">
-        <div>duration: <%=duration%> mins</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <div>TotalMarks: <%=totalMarks%></div>
-    </div><br><br><hr>
-    <% for(let i=0; i<result.length; i++){ %>
-        <div>$$<%= result[i].response[0].whichQuestion.question %>$$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assignedMarks: <%=result[i].response[0].whichQuestion.marks%> &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;marksObtained: <%= result[i].response[0].marksObtained %>)</div><br>
-        <% for(let j=0; j<result[i].response[0].whichQuestion.enteredOptions.length; j++){ %>
-            &nbsp;&nbsp;&nbsp;&nbsp; <div>$$<%= result[i].response[0].whichQuestion.enteredOptions[j] %>$$</div>
-        <% } %> <br>
-        correct option(s): <% for(key in result[i].response[0].whichQuestion.correctOrWrong) { %>
-            <% if((result[i].response[0].whichQuestion.correctOrWrong)[key] === '001'){ %>
-                $$<%= key %>$$ <br>
-            <% } %>
-        <% } %> <br><br>
-        <% if(Array.isArray(result[i].response[0].markedOptions)) { %>
-            marked options(s): <br>
-            <% for(let j=0; j<result[i].response[0].markedOptions.length; j++) { %>
-                $$<%= result[i].response[0].markedOptions[j] %>$$ 
-                <br>
-            <% } %>
-        <% } else { %>
-            marked option(s): $$<%= result[i].response[0].markedOptions %>$$
-        <% } %>
-        
-        <br><br>
+    <h1>
+        <%=quizName%> Review
+    </h1>
+    <div class="container">
+        <div style="display: flex;">
+            <div>duration: <%=duration%> mins</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div>TotalMarks: <%=totalMarks%>
+            </div>
+        </div><br><br>
         <hr>
-    <% } %>
+        <% for(let i=0; i<result.length; i++){ %>
+            <div>$$<%= result[i].response[0].whichQuestion.question %>
+                    $$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(assignedMarks:
+                    <%=result[i].response[0].whichQuestion.marks%> &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;marksObtained:
+                        <%= result[i].response[0].marksObtained %>)</div><br>
+            <% for(let j=0; j<result[i].response[0].whichQuestion.enteredOptions.length; j++){ %>
+                &nbsp;&nbsp;&nbsp;&nbsp; <div>$$<%= result[i].response[0].whichQuestion.enteredOptions[j] %>$$</div>
+                <% } %> <br>
+                    correct option(s): <% for(key in result[i].response[0].whichQuestion.correctOrWrong) { %>
+                        <% if((result[i].response[0].whichQuestion.correctOrWrong)[key]==='001' ){ %>
+                            $$<%= key %>$$ <br>
+                                <% } %>
+                                    <% } %> <br><br>
+                                        <% if(Array.isArray(result[i].response[0].markedOptions)) { %>
+                                            marked options(s): <br>
+                                            <% for(let j=0; j<result[i].response[0].markedOptions.length; j++) { %>
+                                                $$<%= result[i].response[0].markedOptions[j] %>$$
+                                                    <br>
+                                                    <% } %>
+                                                        <% } else { %>
+                                                            marked option(s): $$<%= result[i].response[0].markedOptions
+                                                                %>$$
+                                                                <% } %>
+
+                                                                    <br><br>
+                                                                    <hr>
+                                                                    <% } %>
+    </div>
 </body>
+
 </html>
