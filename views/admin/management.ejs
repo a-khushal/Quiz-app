@@ -47,7 +47,7 @@
                 QUIZ-App
               </span>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -78,129 +78,32 @@
                   </li>
              
                 </ul>
-              </div>
+              </div>-->
           </nav>
         </div>
-      </header>
+      </header> 
 
 
 
 
 
+      <form action="/management/downloadExcel" method="post">
+        <button>Download Excel file</button>
+      </form>
 
+      <br><br><br>
 
-
-
-
-
-
-    
-    
-    <div id="teacherTable" class="table-content">
-        <div class="tbl-header">
-            <table cellpadding="0" cellspacing="0" border="0">
-              <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Subject Name</th>
-                    <th>Subject Code</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
-        
-                <div class="tbl-content">
-                    <table cellpadding="0" cellspacing="0" border="0">
-                      <tbody>
-                <% for(teacher of teachers){ %>
-                    <tr>
-                        <td><%= teacher.username %></td>
-                        <td><%= teacher.email %></td>
-                        <td><%= teacher.subject.name %></td>
-                        <td><%= teacher.subject.code %></td>
-                        <!-- <td>
-                            <div style="display: flex; justify-content: space-between;">
-                                <form action="/management/edit" method="put">
-                                    <button onclick="editTeacher()">edit</button>
-                                </form>
-                                <form action="">
-                                    <button>delete</button>
-                                </form>
-                            </div>
-                        </td> -->
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
-        </div>
-    </div>
-    <div id="studentTable" class="table-content">
-        <div class="tbl-header">
-            <table cellpadding="0" cellspacing="0" border="0">
-                <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Subjects</th>
-                </tr>
-            </thead>
-            </table>
-            </div>
-            <div class="tbl-content">
-                <table cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-                <% for(student of students){ %>
-                    <tr>
-                        <td><%= student.username %></td>
-                        <td><%= student.email %></td>
-                        <td>
-                            <% for(sub of student.subject){ %>
-                                <%= sub.name %>,
-                            <% } %>
-                        </td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
-        </div>
-    </div>
-    <script>
-        function showTable(tableId, btnId){
-            let selectedTable = document.getElementById(tableId);
-            let clickedbtn = document.getElementById(btnId);
-            if(tableId === 'teacherTable'){
-                if(selectedTable.style.display === 'none'||selectedTable.style.display === ''){
-                    selectedTable.style.display = 'block';
-                    clickedbtn.innerHTML = 'Hide teachers';
-                }
-                else {
-                    selectedTable.style.display = 'none';
-                    clickedbtn.innerHTML = 'View teachers';
-                }
-            } else{
-                if(selectedTable.style.display === 'none'||selectedTable.style.display === ''){
-                    selectedTable.style.display = 'block';
-                    clickedbtn.innerHTML = 'Hide students';
-                }
-                else {
-                    selectedTable.style.display = 'none';
-                    clickedbtn.innerHTML = 'View students';
-                }
-            } 
-        }
-        function openNewWindow(){
-            const url = "management/new";
-            let width = 600;
-            let height = 400;
-            let left = (screen.width - width) / 2;
-            let top = (screen.height - height) / 2;
-            let windowFeatures = 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top;
-            window.open(url, '_blank', windowFeatures);
-        }
-    </script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-
+      <form action="/management/uploadExcel" method="post" enctype="multipart/form-data" >
+        <h3>Upload a excel file:</h3>
+        <br>
+        <div>
+        <input type="file" name="edittedFile" id="edittedFile" accept=".xlsx" required></div>
+        (Max fileSize: 450kb)
+        <br>
+        <br>
+        <br>
+        <button type="submit">Submit the file</button>
+    </form>
     <script src="js/index.js"></script>
 </body>
 </html>

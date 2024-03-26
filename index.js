@@ -89,6 +89,8 @@ app.post("/management/new/teacher", async(req, res)=>{
     }
 });
 
+app.post("/management/")
+
 app.post("/management/new/student", async(req, res)=>{
     try{
         let requestBody = [
