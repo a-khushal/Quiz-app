@@ -104,7 +104,7 @@ router
                     {_id: teacher._id},
                     { $addToSet: { studentsId: { $each: studentsId } } },
                 )
-                res.send("hi");
+                res.redirect("/management");
             });
         } catch(e){
             console.log(e)

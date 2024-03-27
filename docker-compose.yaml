@@ -1,0 +1,17 @@
+version: "3.8"
+services: 
+  mongodb:
+    image: mongo
+    container_name: quizapp_mongo
+    ports:
+      - "27018:27017"
+
+  quizapp:
+    build: .
+    container_name: quizapp_code
+    depends_on: 
+      - mongodb
+    ports:
+      - "8080:8080"
+    environment: 
+        MONGO_URL: 'mongodb://quizapp_mongo:27017/quizApp'

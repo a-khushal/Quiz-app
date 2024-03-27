@@ -26,7 +26,8 @@ main()
     .catch((err) => console.log(err));
 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/quizApp");
+    const mongoURL = process.env.MONGO_URL || "mongodb://localhost:27017/quizApp";
+    await mongoose.connect(mongoURL);
 }
 
 const btnStatusSchema = mongoose.Schema({

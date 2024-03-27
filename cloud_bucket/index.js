@@ -1,14 +1,10 @@
-// keyID: 0050231ddf437600000000002
-// keyName: B2-key
-// applicationKey: K005MIgV6jnUyDlhxi5MuHvrAUmDGVM
-
 const AWS = require("aws-sdk");
 const fs = require('fs');
 
 const s3 = new AWS.S3({
-    accessKeyId: "0050231ddf437600000000002",
-    secretAccessKey: "K005MIgV6jnUyDlhxi5MuHvrAUmDGVM",
-    endpoint: "https://quizApp.s3.us-east-005.backblazeb2.com"
+    accessKeyId: "",
+    secretAccessKey: "",
+    endpoint: ""
 })
 
 const uploadFile = async (fileName, localFilePath) => {
