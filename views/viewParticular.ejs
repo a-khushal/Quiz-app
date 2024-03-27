@@ -56,15 +56,8 @@
                             <span style="float: right;">marks: <%=quizQues[i].marks%></span></th>
                 </tr>
                 <tr>
-                    <!-- <td colspan="2">
-                        $$<%= quizQues[i].question %>$$
-                    </td> -->
                     <td colspan="2" style="word-wrap:break-word;">
-
                         $$<%= quizQues[i].question %>$$
-
-
-
                     </td>
                 </tr>
             </table>
@@ -74,7 +67,7 @@
                 </tr>
                 <% for(let j=0; j<(quizQues[i].enteredOptions).length; j++) { %>
                     <tr>
-                        <td>
+                        <td style="word-wrap:break-word; text-align: left !important; overflow-wrap: break-word !important;">
                             $$<%= (quizQues[i].enteredOptions)[j] %>$$
                         </td>
                     </tr>
@@ -87,7 +80,7 @@
                 <% for(key in quizQues[i].correctOrWrong){%>
                     <% if(quizQues[i].correctOrWrong[key]==='001' ){ %>
                         <tr>
-                            <td>$$ <%= key %> $$</td>
+                            <td style="word-wrap:break-word;">$$ <%= key %> $$</td>
                         </tr>
                         <% } %>
                             <% } %>
